@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="willhtun.homepal.Trash">
+
+    <TextView
+        android:id="@+id/trash_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_weight="0.5"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="right|bottom"
+        android:text="Trash"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/trash_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.5"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="right|center_vertical"
+        android:text="$50"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trash_title" />
+
+    <TextView
+        android:id="@+id/trash_dueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="0.5"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="right|top"
+        android:text="Due: mm/dd"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trash_cost" />
+
+    <TextView
+        android:id="@+id/trash_paidDate1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="left|center_vertical"
+        android:fontFamily="@font/raleway_light"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/trash_paidDate2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/trash_paidDate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="left|center_vertical"
+        android:fontFamily="@font/raleway_light"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/trash_paidDate3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/trash_paidDate3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="left|center_vertical"
+        android:fontFamily="@font/raleway_light"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/trash_person1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/trash_payBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/generic_paybutton" />
+
+    <TextView
+        android:id="@+id/trash_payBtn_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center_vertical"
+        android:text="PAY"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/trash_payBtn"
+        app:layout_constraintEnd_toEndOf="@+id/trash_payBtn"
+        app:layout_constraintStart_toStartOf="@+id/trash_payBtn"
+        app:layout_constraintTop_toTopOf="@+id/trash_payBtn" />
+
+    <ImageView
+        android:id="@+id/trash_person1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_payBtn"
+        app:layout_constraintEnd_toStartOf="@+id/trash_person2"
+        app:srcCompat="@drawable/generic_personpaybutton" />
+
+    <TextView
+        android:id="@+id/trash_person1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center_vertical"
+        android:text="An"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/trash_person1"
+        app:layout_constraintEnd_toEndOf="@+id/trash_person1"
+        app:layout_constraintStart_toStartOf="@+id/trash_person1"
+        app:layout_constraintTop_toTopOf="@+id/trash_person1" />
+
+    <ImageView
+        android:id="@+id/trash_person2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_payBtn"
+        app:layout_constraintEnd_toStartOf="@+id/trash_person3"
+        app:srcCompat="@drawable/generic_personpaybutton" />
+
+    <TextView
+        android:id="@+id/trash_person2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center_vertical"
+        android:text="Br"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/trash_person2"
+        app:layout_constraintEnd_toEndOf="@+id/trash_person2"
+        app:layout_constraintStart_toStartOf="@+id/trash_person2"
+        app:layout_constraintTop_toTopOf="@+id/trash_person2" />
+
+    <ImageView
+        android:id="@+id/trash_person3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_payBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/generic_personpaybutton" />
+
+    <TextView
+        android:id="@+id/trash_person3_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center_vertical"
+        android:text="Em"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/trash_person3"
+        app:layout_constraintEnd_toEndOf="@+id/trash_person3"
+        app:layout_constraintStart_toStartOf="@+id/trash_person3"
+        app:layout_constraintTop_toTopOf="@+id/trash_person3" />
+
+    <ImageView
+        android:id="@+id/trash_person4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_payBtn"
+        app:layout_constraintStart_toEndOf="@+id/trash_person3"
+        app:srcCompat="@drawable/generic_personpaybutton" />
+
+    <TextView
+        android:id="@+id/trash_person4_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center_vertical"
+        android:text="He"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/trash_person4"
+        app:layout_constraintEnd_toEndOf="@+id/trash_person4"
+        app:layout_constraintStart_toStartOf="@+id/trash_person4"
+        app:layout_constraintTop_toTopOf="@+id/trash_person4" />
+
+    <ImageView
+        android:id="@+id/trash_person5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_payBtn"
+        app:layout_constraintStart_toEndOf="@+id/trash_person4"
+        app:srcCompat="@drawable/generic_personpaybutton" />
+
+    <TextView
+        android:id="@+id/trash_person5_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center_vertical"
+        android:text="Mi"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/trash_person5"
+        app:layout_constraintEnd_toEndOf="@+id/trash_person5"
+        app:layout_constraintStart_toStartOf="@+id/trash_person5"
+        app:layout_constraintTop_toTopOf="@+id/trash_person5" />
+
+    <ImageView
+        android:id="@+id/trash_paidDate1_bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_paidDate2"
+        app:layout_constraintEnd_toStartOf="@+id/trash_paidDate1"
+        app:layout_constraintTop_toTopOf="@+id/trash_paidDate1"
+        app:srcCompat="@drawable/trash_bullet" />
+
+    <ImageView
+        android:id="@+id/trash_paidDate2_bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_paidDate3"
+        app:layout_constraintEnd_toStartOf="@+id/trash_paidDate2"
+        app:layout_constraintTop_toTopOf="@+id/trash_paidDate2"
+        app:srcCompat="@drawable/trash_bullet" />
+
+    <ImageView
+        android:id="@+id/trash_paidDate3_bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_person1"
+        app:layout_constraintEnd_toStartOf="@+id/trash_paidDate3"
+        app:layout_constraintTop_toTopOf="@+id/trash_paidDate3"
+        app:srcCompat="@drawable/trash_bullet" />
+
+</android.support.constraint.ConstraintLayout>
