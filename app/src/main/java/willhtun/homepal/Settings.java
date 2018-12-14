@@ -1,6 +1,7 @@
 package willhtun.homepal;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,27 +14,50 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 public class Settings extends AppCompatActivity {
-    int reminderDays = 5;
+
+    public static int remainderDays = 7;
+
     int rentDueDate = 1;
+    int carDueDate = 1;
     int internetDueDate = 1;
+    int mobileDueDate = 1;
     int electricityDueDate = 1;
     int waterDueDate = 1;
     int gasDueDate = 1;
     int trashDueDate = 1;
+    int custom1 = 1;
+    int custom2 = 1;
+    int custom3 = 1;
+    int custom4 = 1;
+    int custom5 = 1;
 
     double rentCost = 0.0;
+    double carCost = 0.0;
     double internetCost = 0.0;
+    double mobileCost = 0.0;
     double electricityCost = 0.0;
     double waterCost = 0.0;
     double gasCost = 0.0;
     double trashCost = 0.0;
+    double custom1Cost = 0.0;
+    double custom2Cost = 0.0;
+    double custom3Cost = 0.0;
+    double custom4Cost = 0.0;
+    double custom5Cost = 0.0;
 
     int rentFlag = 0;
+    int carFlag = 0;
     int internetFlag = 0;
+    int mobileFlag = 0;
     int electricityFlag = 0;
     int waterFlag = 0;
     int gasFlag = 0;
     int trashFlag = 0;
+    int custom1Flag = 0;
+    int custom2Flag = 0;
+    int custom3Flag = 0;
+    int custom4Flag = 0;
+    int custom5Flag = 0;
 
     NumberPicker np_reminder;
     AlertDialog reminderpickerdialog;
@@ -50,6 +74,7 @@ public class Settings extends AppCompatActivity {
     Button text_trash;
 
     DatabaseHelper mDatabaseHelper;
+    CalendarHelper mCalendarHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,20 +83,20 @@ public class Settings extends AppCompatActivity {
 
         mDatabaseHelper = new DatabaseHelper(getApplicationContext());
 
-        reminderDays = mDatabaseHelper.getDate_fromDueDate("reminder_day");
-        if (reminderDays < 0) reminderDays = 1;
+        remainderDays = mDatabaseHelper.getDate_fromDueDate("reminder_day");
+        if (remainderDays < 0) remainderDays = 99;
         rentDueDate = mDatabaseHelper.getDate_fromDueDate("rent");
-        if (rentDueDate < 0) rentDueDate = 1;
+        if (rentDueDate < 0) rentDueDate = 99;
         internetDueDate = mDatabaseHelper.getDate_fromDueDate("internet");
-        if (internetDueDate < 0) internetDueDate = 1;
+        if (internetDueDate < 0) internetDueDate = 99;
         electricityDueDate = mDatabaseHelper.getDate_fromDueDate("electricity");
-        if (electricityDueDate < 0) electricityDueDate = 1;
+        if (electricityDueDate < 0) electricityDueDate = 99;
         waterDueDate = mDatabaseHelper.getDate_fromDueDate("water");
-        if (waterDueDate < 0) waterDueDate = 1;
+        if (waterDueDate < 0) waterDueDate = 99;
         gasDueDate = mDatabaseHelper.getDate_fromDueDate("gas");
-        if (gasDueDate < 0) gasDueDate = 1;
+        if (gasDueDate < 0) gasDueDate = 99;
         trashDueDate = mDatabaseHelper.getDate_fromDueDate("trash");
-        if (trashDueDate < 0) trashDueDate = 1;
+        if (trashDueDate < 0) trashDueDate = 99;
 
         rentCost = mDatabaseHelper.getCost_fromDueDate("rent");
         internetCost = mDatabaseHelper.getCost_fromDueDate("internet");
@@ -81,7 +106,7 @@ public class Settings extends AppCompatActivity {
         trashCost = mDatabaseHelper.getCost_fromDueDate("trash");
 
         text_reminder = (Button) findViewById(R.id.settings_reminder);
-        text_reminder.setText("Remind me " + reminderDays + " days before due date.");
+        text_reminder.setText("Remind me " + remainderDays + " days before due date.");
         text_rent = (Button) findViewById(R.id.settings_rentdue);
         text_rent.setText("Rent. Due date " + rentDueDate + " of every month. $" + rentCost);
         text_internet = (Button) findViewById(R.id.settings_internetdue);
@@ -130,7 +155,6 @@ public class Settings extends AppCompatActivity {
         np_datePicker_day.setMaxValue(31);
         np_datePicker_day.setMinValue(1);
 
-        et_datePicker_cost = (EditText) datepicker_view.findViewById(R.id.dialog_datePicker_cost);
         if (rentFlag == 1) {
             np_datePicker_day.setValue(rentDueDate);
             et_datePicker_cost.setText(Double.toString(mDatabaseHelper.getCost_fromDueDate("rent")));
@@ -159,6 +183,7 @@ public class Settings extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+
     public void show_datePicker_rent(View view) {
         rentFlag = 1;
         show_datePicker(view);
@@ -184,10 +209,13 @@ public class Settings extends AppCompatActivity {
         show_datePicker(view);
     }
 
+    public void open_SettingsBills(View view) {
+    }
+
     public void setReminderDays(View view) {
-        reminderDays = np_reminder.getValue();
-        mDatabaseHelper.addData_toDueDate("reminder_day", reminderDays, 0);
-        text_reminder.setText("Remind me " + reminderDays + " days before due date.");
+        remainderDays = np_reminder.getValue();
+        mDatabaseHelper.addData_toDueDate("reminder_day", remainderDays, 0);
+        text_reminder.setText("Remind me " + remainderDays + " days before due date.");
         reminderpickerdialog.dismiss();
     }
 
@@ -236,4 +264,5 @@ public class Settings extends AppCompatActivity {
         }
         datePickerDialog.dismiss();
     }
+
 }

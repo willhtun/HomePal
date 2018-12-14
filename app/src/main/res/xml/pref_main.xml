@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Bills"
+        android:iconSpaceReserved="false">
+
+        <Preference
+            android:key="settingsopen_otherbills"
+            android:summary="Select which bills to appear on home screen"
+            android:title="Add Bills" />
+        <Preference
+            android:key="settingsopen_duedatebills"
+            android:summary="Set recurring due dates"
+            android:title="Edit Due Dates" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Reminder">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_notificationOn"
+            android:title="Notifications" />
+        <Preference
+            android:key="settingsopen_reminder"
+            android:summary="Set how many days prior due date to remind"
+            android:title="Remind Period" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Bill Sharing">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="settings_billSharingOn"
+            android:title="Bill Sharing"
+            android:summary="Show pay button for housemates"/>
+        <Preference
+            android:key="settingsopen_housemates"
+            android:summary="Edit whom you are sharing your bills with"
+            android:title="Add Housemates" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+        <Preference
+            android:key="settings_feedback"
+            android:title="Feedback" />
+        <Preference
+            android:key="settings_version"
+            android:summary="1.0"
+            android:title="Version" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

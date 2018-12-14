@@ -144,6 +144,28 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/settings_showbills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bills" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/settings_bills"
+                        android:onClick="open_SettingsBills"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity=""
+                        android:textAllCaps="false"
+                        android:fontFamily="@string/app_name"
+                        android:text="Select bills" />
+                </FrameLayout>
+
+            <TextView
                 android:id="@+id/settings_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

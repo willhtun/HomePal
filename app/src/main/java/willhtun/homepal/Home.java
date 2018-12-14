@@ -1,22 +1,25 @@
 package willhtun.homepal;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
+import android.preference.PreferenceManager;
+import android.provider.SyncStateContract;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
+import java.util.Calendar;
 
 public class Home extends AppCompatActivity {
 
@@ -24,26 +27,39 @@ public class Home extends AppCompatActivity {
     CalendarHelper mCalendarHelper;
 
     int rentDaysLeftUntil = 1;
+    int carDaysLeftUntil = 1;
     int internetDaysLeftUntil = 1;
+    int mobileDaysLeftUntil = 1;
     int electricityDaysLeftUntil = 1;
     int waterDaysLeftUntil = 1;
     int gasDaysLeftUntil = 1;
     int trashDaysLeftUntil = 1;
+    int custom1DaysLeftUntil = 1;
+    int custom2DaysLeftUntil = 1;
+    int custom3DaysLeftUntil = 1;
+    int custom4DaysLeftUntil = 1;
+    int custom5DaysLeftUntil = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mDatabaseHelper = new DatabaseHelper(this);
-        mCalendarHelper = new CalendarHelper(mDatabaseHelper);
+        mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
 
         loadDueDates();
+        loadPaidHistory();
+        loadVisibility();
+
+        setAlarm();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         loadDueDates();
+        loadPaidHistory();
+        loadVisibility();
     }
 
     public void open_Rent(View view) {
@@ -51,9 +67,19 @@ public class Home extends AppCompatActivity {
         startActivity(intent_rent);
     }
 
+    public void open_Car(View view) {
+        Intent intent_car = new Intent(this, Car.class);
+        startActivity(intent_car);
+    }
+
     public void open_Internet(View view) {
         Intent intent_internet = new Intent(this, Internet.class);
         startActivity(intent_internet);
+    }
+
+    public void open_Mobile(View view) {
+        Intent intent_mobile = new Intent(this, Mobile.class);
+        startActivity(intent_mobile);
     }
 
     public void open_Electricity(View view) {
@@ -77,100 +103,396 @@ public class Home extends AppCompatActivity {
     }
 
     public void open_Groceries(View view) {
-        String id = "id_product";
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // The user-visible name of the channel.
-            CharSequence name = "Product";
-            // The user-visible description of the channel.
-            String description = "Notifications regarding our products";
-            int importance = NotificationManager.IMPORTANCE_MAX;
-            NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH);
-            // Configure the notification channel.
-            mChannel.setDescription(description);
-            mChannel.enableLights(true);
-            // Sets the notification light color for notifications posted to this
-            // channel, if the device supports this feature.
-            mChannel.setLightColor(Color.RED);
-            notificationManager.createNotificationChannel(mChannel);
-        }
 
-        Intent intent1 = new Intent(getApplicationContext(), Home.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 123, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(),"id_product")
-                .setSmallIcon(R.drawable.icon_gas) //your app icon
-                .setBadgeIconType(R.drawable.ic_border_greendiamond) //your app icon
-                .setChannelId(id)
-                .setContentTitle("title")
-                .setAutoCancel(true).setContentIntent(pendingIntent)
-                .setNumber(1)
-                .setColor(255)
-                .setContentText("text")
-                .setWhen(System.currentTimeMillis());
-        notificationManager.notify(1, notificationBuilder.build());
+    }
+
+    public void open_Custom1(View view) {
+        Intent intent_custom1 = new Intent(this, Custom1.class);
+        startActivity(intent_custom1);
+    }
+
+    public void open_Custom2(View view) {
+        Intent intent_custom2 = new Intent(this, Custom2.class);
+        startActivity(intent_custom2);
+    }
+
+    public void open_Custom3(View view) {
+        Intent intent_custom3 = new Intent(this, Custom3.class);
+        startActivity(intent_custom3);
+    }
+
+    public void open_Custom4(View view) {
+        Intent intent_custom4 = new Intent(this, Custom4.class);
+        startActivity(intent_custom4);
+    }
+
+    public void open_Custom5(View view) {
+        Intent intent_custom5 = new Intent(this, Custom5.class);
+        startActivity(intent_custom5);
     }
 
     public void open_Settings(View view) {
-        Intent intent_settings = new Intent(this, Settings.class);
-        startActivity(intent_settings);
+        Intent intent_settingsN = new Intent(this, SettingsN.class);
+        startActivity(intent_settingsN);
     }
 
     private void loadDueDates() {
 
+        int warningPeriod = mDatabaseHelper.getDate_fromDueDate("reminder_day");
+
         rentDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("rent");
+        carDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("car");
         internetDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("internet");
+        mobileDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("mobile");
         electricityDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("electricity");
         waterDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("water");
         gasDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("gas");
         trashDaysLeftUntil = mCalendarHelper.getDaysLeftUntil("trash");
+        custom1DaysLeftUntil = mCalendarHelper.getDaysLeftUntil("custom1");
+        custom2DaysLeftUntil = mCalendarHelper.getDaysLeftUntil("custom2");
+        custom3DaysLeftUntil = mCalendarHelper.getDaysLeftUntil("custom3");
+        custom4DaysLeftUntil = mCalendarHelper.getDaysLeftUntil("custom4");
+        custom5DaysLeftUntil = mCalendarHelper.getDaysLeftUntil("custom5");
+
 
         ((TextView) findViewById(R.id.rent_diamondText)).setText(String.valueOf(rentDaysLeftUntil));
+        ((TextView) findViewById(R.id.car_diamondText)).setText(String.valueOf(carDaysLeftUntil));
         ((TextView) findViewById(R.id.internet_diamondText)).setText(String.valueOf(internetDaysLeftUntil));
+        ((TextView) findViewById(R.id.mobile_diamondText)).setText(String.valueOf(mobileDaysLeftUntil));
         ((TextView) findViewById(R.id.electricity_diamondText)).setText(String.valueOf(electricityDaysLeftUntil));
         ((TextView) findViewById(R.id.water_diamondText)).setText(String.valueOf(waterDaysLeftUntil));
         ((TextView) findViewById(R.id.gas_diamondText)).setText(String.valueOf(gasDaysLeftUntil));
         ((TextView) findViewById(R.id.trash_diamondText)).setText(String.valueOf(trashDaysLeftUntil));
+        ((TextView) findViewById(R.id.custom1_diamondText)).setText(String.valueOf(custom1DaysLeftUntil));
+        ((TextView) findViewById(R.id.custom2_diamondText)).setText(String.valueOf(custom2DaysLeftUntil));
+        ((TextView) findViewById(R.id.custom3_diamondText)).setText(String.valueOf(custom3DaysLeftUntil));
+        ((TextView) findViewById(R.id.custom4_diamondText)).setText(String.valueOf(custom4DaysLeftUntil));
+        ((TextView) findViewById(R.id.custom5_diamondText)).setText(String.valueOf(custom5DaysLeftUntil));
 
-        if (rentDaysLeftUntil <= 3)
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_red);
-        else if (rentDaysLeftUntil <= 7)
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_orange);
-        else
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons);
 
-        if (internetDaysLeftUntil <= 3)
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_red);
-        else if (internetDaysLeftUntil <= 7)
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_orange);
-        else
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons);
+        if (rentDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (rentDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
 
-        if (electricityDaysLeftUntil <= 3)
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_red);
-        else if (electricityDaysLeftUntil <= 7)
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_orange);
-        else
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons);
+        if (carDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.car_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (carDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.car_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.car_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
 
-        if (waterDaysLeftUntil <= 3)
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_red);
-        else if (waterDaysLeftUntil <= 7)
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_orange);
-        else
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons);
+        if (internetDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (internetDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
 
-        if (gasDaysLeftUntil <= 3)
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_red);
-        else if (gasDaysLeftUntil <= 7)
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_orange);
-        else
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons);
+        if (mobileDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (mobileDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
 
-        if (trashDaysLeftUntil <= 3)
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_red);
-        else if (trashDaysLeftUntil <= 7)
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons_orange);
-        else
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.home_optionbuttons);
+        if (electricityDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (electricityDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (waterDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (waterDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (gasDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (gasDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (trashDaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (trashDaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (custom1DaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (custom1DaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (custom2DaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (custom2DaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (custom3DaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (custom3DaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (custom4DaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (custom4DaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+
+        if (custom5DaysLeftUntil <= 3) {
+            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+        }
+        else if (custom5DaysLeftUntil <= warningPeriod) {
+            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setImageResource(R.drawable.ic_border_orangediamond);
+            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#E6B572"));
+        }
+        else {
+            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
+            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#5DB699"));
+        }
+    }
+
+    public void loadPaidHistory() {
+        if (mDatabaseHelper.isDataExists_fromHistory("rent", mCalendarHelper.getCycleMonthYear("rent"),0)) {
+            ((TextView) findViewById(R.id.rent_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("car", mCalendarHelper.getCycleMonthYear("car"),0)) {
+            ((TextView) findViewById(R.id.car_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.car_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("internet", mCalendarHelper.getCycleMonthYear("internet"),0)) {
+            ((TextView) findViewById(R.id.internet_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("mobile", mCalendarHelper.getCycleMonthYear("mobile"),0)) {
+            ((TextView) findViewById(R.id.mobile_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("electricity", mCalendarHelper.getCycleMonthYear("electricity"),0)) {
+            ((TextView) findViewById(R.id.electricity_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("water", mCalendarHelper.getCycleMonthYear("water"),0)) {
+            ((TextView) findViewById(R.id.water_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.water_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("gas", mCalendarHelper.getCycleMonthYear("gas"),0)) {
+            ((TextView) findViewById(R.id.gas_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+        if (mDatabaseHelper.isDataExists_fromHistory("trash", mCalendarHelper.getCycleMonthYear("trash"),0)) {
+            ((TextView) findViewById(R.id.trash_diamondText)).setText("");
+            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+        }
+    }
+
+    public void loadVisibility() {
+        boolean empty = true;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        findViewById(R.id.constraint_info).setVisibility(View.GONE);
+        findViewById(R.id.constraint_rent).setVisibility(View.GONE);
+        findViewById(R.id.constraint_car).setVisibility(View.GONE);
+        findViewById(R.id.constraint_internet).setVisibility(View.GONE);
+        findViewById(R.id.constraint_mobile).setVisibility(View.GONE);
+        findViewById(R.id.constraint_electricity).setVisibility(View.GONE);
+        findViewById(R.id.constraint_water).setVisibility(View.GONE);
+        findViewById(R.id.constraint_gas).setVisibility(View.GONE);
+        findViewById(R.id.constraint_trash).setVisibility(View.GONE);
+        findViewById(R.id.constraint_groceries).setVisibility(View.GONE);
+        findViewById(R.id.constraint_custom1).setVisibility(View.GONE);
+        findViewById(R.id.constraint_custom2).setVisibility(View.GONE);
+        findViewById(R.id.constraint_custom3).setVisibility(View.GONE);
+        findViewById(R.id.constraint_custom4).setVisibility(View.GONE);
+        findViewById(R.id.constraint_custom5).setVisibility(View.GONE);
+
+        if (preferences.getBoolean("check_box_preference_bills_rent", false)) {
+            findViewById(R.id.constraint_rent).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_car", false)) {
+            findViewById(R.id.constraint_car).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_internet", false)) {
+            findViewById(R.id.constraint_internet).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_mobile", false)) {
+            findViewById(R.id.constraint_mobile).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_electricity", false)) {
+            findViewById(R.id.constraint_electricity).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_water", false)) {
+            findViewById(R.id.constraint_water).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_gas", false)) {
+            findViewById(R.id.constraint_gas).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_trash", false)) {
+            findViewById(R.id.constraint_trash).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("check_box_preference_bills_groceries", false)) {
+            findViewById(R.id.constraint_groceries).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("custombill1_On", false)) {
+            ((TextView)findViewById(R.id.custom1_staticText)).setText(preferences.getString("name_preference_bills_custom1", "Custom 1"));
+            if (preferences.getString("name_preference_bills_custom1", "Custom 1").equals(""))
+                ((TextView)findViewById(R.id.custom1_staticText)).setText("Custom 1");
+            findViewById(R.id.constraint_custom1).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("custombill2_On", false)) {
+            ((TextView)findViewById(R.id.custom2_staticText)).setText(preferences.getString("name_preference_bills_custom2", "Custom 2"));
+            if (preferences.getString("name_preference_bills_custom2", "Custom 2").equals(""))
+                ((TextView)findViewById(R.id.custom2_staticText)).setText("Custom 2");
+            findViewById(R.id.constraint_custom2).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("custombill3_On", false)) {
+            ((TextView)findViewById(R.id.custom3_staticText)).setText(preferences.getString("name_preference_bills_custom3", "Custom 3"));
+            if (preferences.getString("name_preference_bills_custom3", "Custom 3").equals(""))
+                ((TextView)findViewById(R.id.custom3_staticText)).setText("Custom 3");
+            findViewById(R.id.constraint_custom3).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("custombill4_On", false)) {
+            ((TextView)findViewById(R.id.custom4_staticText)).setText(preferences.getString("name_preference_bills_custom4", "Custom 4"));
+            if (preferences.getString("name_preference_bills_custom4", "Custom 4").equals(""))
+                ((TextView)findViewById(R.id.custom4_staticText)).setText("Custom 4");
+            findViewById(R.id.constraint_custom4).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+        if (preferences.getBoolean("custombill5_On", false)) {
+            ((TextView)findViewById(R.id.custom5_staticText)).setText(preferences.getString("name_preference_bills_custom5", "Custom 5"));
+            if (preferences.getString("name_preference_bills_custom5", "Custom 5").equals(""))
+                ((TextView)findViewById(R.id.custom5_staticText)).setText("Custom 5");
+            findViewById(R.id.constraint_custom5).setVisibility(View.VISIBLE);
+            empty = false;
+        }
+
+        if (empty) {
+            findViewById(R.id.constraint_info).setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setAlarm() {
+        // Quote in Morning at 08:32:00 AM
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar cur = Calendar.getInstance();
+
+        if (cur.after(calendar)) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        Intent myIntent = new Intent(this, NotificationScheduler.class);
+        int ALARM1_ID = 10000;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this, ALARM1_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
     }
 }

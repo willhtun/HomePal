@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Add housemates">
+
+        <Preference
+            android:key="name_preference_housemates1_delete"
+            android:summary=""
+            android:title="Tap to add housemate" />
+
+        <Preference
+            android:key="name_preference_housemates2_delete"
+            android:summary=""
+            android:title="Tap to add housemate" />
+
+        <Preference
+            android:key="name_preference_housemates3_delete"
+            android:summary=""
+            android:title="Tap to add housemate" />
+
+        <Preference
+            android:key="name_preference_housemates4_delete"
+            android:summary=""
+            android:title="Tap to add housemate" />
+
+        <Preference
+            android:key="name_preference_housemates5_delete"
+            android:summary=""
+            android:title="Tap to add housemate" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

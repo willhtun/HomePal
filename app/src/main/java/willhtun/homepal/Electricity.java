@@ -33,21 +33,20 @@ public class Electricity extends AppCompatActivity {
         setContentView(R.layout.activity_electricity);
 
         mDatabaseHelper = new DatabaseHelper(getApplicationContext());
-        mCalendarHelper = new CalendarHelper(mDatabaseHelper);
+        mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
 
         duedate = mDatabaseHelper.getDate_fromDueDate(type); if (duedate < 0) duedate = 1;
         duemonth = mCalendarHelper.getCycleMonth(type);
         dueyear = mCalendarHelper.getCycleYear(type);
 
-        electricity_p0_btn = (ImageView) findViewById(R.id.electricity_payBtn);
-        electricity_p1_btn = (ImageView) findViewById(R.id.electricity_person1);
-        electricity_p2_btn = (ImageView) findViewById(R.id.electricity_person2);
-        electricity_p3_btn = (ImageView) findViewById(R.id.electricity_person3);
-        electricity_p4_btn = (ImageView) findViewById(R.id.electricity_person4);
-        electricity_p5_btn = (ImageView) findViewById(R.id.electricity_person5);
+        electricity_p0_btn = findViewById(R.id.electricity_payBtn);
+        electricity_p1_btn = findViewById(R.id.electricity_person1);
+        electricity_p2_btn = findViewById(R.id.electricity_person2);
+        electricity_p3_btn = findViewById(R.id.electricity_person3);
+        electricity_p4_btn = findViewById(R.id.electricity_person4);
+        electricity_p5_btn = findViewById(R.id.electricity_person5);
 
         ((TextView) findViewById(R.id.electricity_dueDate)).setText("Due: " + duemonth + "/" + duedate);
-        ((TextView) findViewById(R.id.electricity_cost)).setText("$ " + String.valueOf(mDatabaseHelper.getCost_fromDueDate(type)));
 
         loadHistory();
 
@@ -56,52 +55,47 @@ public class Electricity extends AppCompatActivity {
 
     public void electricity_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), mCalendarHelper.getTodayDate(), 0);
-        ((TextView) findViewById(R.id.electricity_payBtn_text)).setTextColor(Color.WHITE);
         ((TextView) findViewById(R.id.electricity_payBtn_text)).setText("PAID");
-        electricity_p0_btn.setImageResource(R.drawable.electricity_paybutton);
+        ((TextView) findViewById(R.id.electricity_payBtn_text)).setTextColor(Color.WHITE);
+        electricity_p0_btn.setImageResource(R.drawable.generic_paidbutton);
         loadHistory();
     }
 
     public void electricity_person1_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 111, 1);
-        ((TextView) findViewById(R.id.electricity_person1_text)).setTextColor(Color.WHITE);
-        electricity_p1_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+        electricity_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void electricity_person2_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 222, 2);
-        ((TextView) findViewById(R.id.electricity_person2_text)).setTextColor(Color.WHITE);
-        electricity_p2_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+        electricity_p2_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void electricity_person3_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 333, 3);
-        ((TextView) findViewById(R.id.electricity_person3_text)).setTextColor(Color.WHITE);
-        electricity_p3_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+        electricity_p3_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void electricity_person4_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 444, 4);
-        ((TextView) findViewById(R.id.electricity_person4_text)).setTextColor(Color.WHITE);
-        electricity_p4_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+        electricity_p4_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void electricity_person5_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 555, 5);
-        ((TextView) findViewById(R.id.electricity_person5_text)).setTextColor(Color.WHITE);
-        electricity_p5_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+        electricity_p5_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void loadButtons() {
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),0)) {
-            ((TextView) findViewById(R.id.electricity_payBtn_text)).setTextColor(Color.WHITE);
             ((TextView) findViewById(R.id.electricity_payBtn_text)).setText("PAID");
-            electricity_p0_btn.setImageResource(R.drawable.electricity_paybutton);
+            electricity_p0_btn.setImageResource(R.drawable.generic_paidbutton);
+            ((TextView) findViewById(R.id.electricity_payBtn_text)).setTextColor(Color.WHITE);
         }
         else{
             electricity_p0_btn.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +103,10 @@ public class Electricity extends AppCompatActivity {
                     electricity_pay();
                 }
             });
+            ((TextView) findViewById(R.id.electricity_payBtn_text)).setTextColor(Color.parseColor("#5DB699"));
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),1)) {
-            ((TextView) findViewById(R.id.electricity_person1_text)).setTextColor(Color.WHITE);
-            electricity_p1_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+            electricity_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             electricity_p1_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -124,8 +118,7 @@ public class Electricity extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),2)) {
-            ((TextView) findViewById(R.id.electricity_person2_text)).setTextColor(Color.WHITE);
-            electricity_p2_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+            electricity_p2_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             electricity_p2_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -137,8 +130,7 @@ public class Electricity extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),3)) {
-            ((TextView) findViewById(R.id.electricity_person3_text)).setTextColor(Color.WHITE);
-            electricity_p3_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+            electricity_p3_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             electricity_p3_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -150,8 +142,7 @@ public class Electricity extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),4)) {
-            ((TextView) findViewById(R.id.electricity_person4_text)).setTextColor(Color.WHITE);
-            electricity_p4_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+            electricity_p4_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             electricity_p4_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -163,8 +154,7 @@ public class Electricity extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),5)) {
-            ((TextView) findViewById(R.id.electricity_person5_text)).setTextColor(Color.WHITE);
-            electricity_p5_btn.setImageResource(R.drawable.electricity_personpaidbutton);
+            electricity_p5_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             electricity_p5_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -226,6 +216,7 @@ public class Electricity extends AppCompatActivity {
     }
 
     public void loadHistory() {
+        /*
         TextView history1 = (TextView) findViewById(R.id.electricity_paidDate1);
         history1.setText(mDatabaseHelper.getPaidDate_fromHistory(type, duemonth-3, dueyear)[2]);
         if (history1.getText() == "")
@@ -265,5 +256,6 @@ public class Electricity extends AppCompatActivity {
                 }
             });
         }
+        */
     }
 }

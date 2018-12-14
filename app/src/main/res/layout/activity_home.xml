@@ -6,387 +6,1207 @@
     android:layout_height="match_parent"
     tools:context="willhtun.homepal.Home">
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginEnd="32dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginStart="8dp"
+    <ImageView
+        android:id="@+id/home_banner"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/home_banner" />
+
+    <TextView
+        android:id="@+id/home_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily=""
+        android:text="HomePal"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/home_banner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/home_banner" />
+
+    <ImageButton
+        android:id="@+id/home_settings"
+        style="@android:style/Widget.Material.Light.ImageButton"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:onClick="open_Settings"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="@+id/home_banner"
+        app:layout_constraintTop_toTopOf="@+id/home_banner"
+        app:srcCompat="@drawable/icon_home_settings" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/home_banner">
 
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="open_Rent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_info"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/home_info"
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="Tap the Settings icon and select 'Add Bills' to create reminders."
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_rent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/rent_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="61dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="rent"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/rent_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_home"
+                    app:layout_constraintStart_toEndOf="@+id/rent_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/rent_diamondText" />
 
                 <ImageView
                     android:id="@+id/rent_greyDiamonds"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
 
                 <TextView
                     android:id="@+id/rent_diamondText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:gravity="center"
-                    android:text="28"
-                    android:textSize="22dp" />
+                    android:text="5"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rent_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/rent_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/rent_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/rent_greyDiamonds"
+                    app:layout_constraintVertical_bias="0.103" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:id="@+id/home_icon_home"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/rent_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/rent_staticText"
+                    app:srcCompat="@drawable/icon_home" />
 
-            <TextView
-                android:id="@+id/rent_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:text="rent   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_line0"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-            <ImageView
-                android:id="@+id/home_icon_home"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_home" />
+                <Button
+                    android:id="@+id/rent_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Rent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_car"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/car_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="61dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="car"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/car_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_car"
+                    app:layout_constraintStart_toEndOf="@+id/car_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/car_diamondText" />
+
+                <ImageView
+                    android:id="@+id/car_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/car_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/car_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/car_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/car_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/car_greyDiamonds"
+                    app:layout_constraintVertical_bias="0.103" />
+
+                <ImageView
+                    android:id="@+id/home_icon_car"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/car_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/car_staticText"
+                    app:srcCompat="@drawable/icon_car" />
+
+                <ImageView
+                    android:id="@+id/home_line1"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/car_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Car"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_internet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/internet_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="internet"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/internet_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_internet"
+                    app:layout_constraintStart_toEndOf="@+id/internet_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/internet_diamondText" />
 
                 <ImageView
                     android:id="@+id/internet_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/internet_btn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
 
                 <TextView
                     android:id="@+id/internet_diamondText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:gravity="center"
-                    android:text="28"
-                    android:textSize="22dp" />
+                    android:text="5"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/internet_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/internet_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/internet_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/internet_greyDiamonds" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:id="@+id/home_icon_internet"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/internet_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/internet_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_internet" />
 
-            <TextView
-                android:id="@+id/internet_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Internet"
-                android:text="internet   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_line2"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-            <ImageView
-                android:id="@+id/home_icon_internet"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_internet" />
-        </TableRow>
+                <Button
+                    android:id="@+id/internet_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Internet"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            </android.support.constraint.ConstraintLayout>
 
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/mobile_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="mobile"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/mobile_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_mobile"
+                    app:layout_constraintStart_toEndOf="@+id/mobile_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/mobile_diamondText" />
+
+                <ImageView
+                    android:id="@+id/mobile_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/mobile_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/mobile_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/mobile_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/mobile_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/mobile_greyDiamonds" />
+
+                <ImageView
+                    android:id="@+id/home_icon_mobile"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/mobile_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/mobile_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_mobile" />
+
+                <ImageView
+                    android:id="@+id/home_line3"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/mobile_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Mobile"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_electricity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/electricity_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="electricity"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/electricity_greyDiamonds"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_electricity"
+                    app:layout_constraintStart_toEndOf="@+id/electricity_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/electricity_greyDiamonds" />
 
                 <ImageView
                     android:id="@+id/electricity_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
 
                 <TextView
                     android:id="@+id/electricity_diamondText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:gravity="center"
-                    android:text="28"
-                    android:textSize="22dp" />
-            </RelativeLayout>
+                    android:text="5"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/electricity_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/electricity_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/electricity_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/electricity_greyDiamonds" />
 
-            <TextView
-                android:id="@+id/electricity_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Electricity"
-                android:text="electricity   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_icon_electricity"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/electricity_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/electricity_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_electricity" />
 
-            <ImageView
-                android:id="@+id/home_icon_electricity"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_electricity" />
+                <ImageView
+                    android:id="@+id/home_line4"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-        </TableRow>
+                <Button
+                    android:id="@+id/electricity_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Electricity"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_water"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/water_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="water"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/water_greyDiamonds"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_water"
+                    app:layout_constraintStart_toEndOf="@+id/water_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/water_greyDiamonds" />
 
                 <ImageView
                     android:id="@+id/water_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
 
                 <TextView
                     android:id="@+id/water_diamondText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:gravity="center"
-                    android:text="28"
-                    android:textSize="22dp" />
-            </RelativeLayout>
+                    android:text="7"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/water_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/water_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/water_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/water_greyDiamonds" />
 
-            <TextView
-                android:id="@+id/water_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Water"
-                android:text="water   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_icon_water"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/water_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/water_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_water" />
 
-            <ImageView
-                android:id="@+id/home_icon_water"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_water" />
-        </TableRow>
+                <ImageView
+                    android:id="@+id/home_line5"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                <Button
+                    android:id="@+id/water_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Water"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_gas"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/gas_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="gas"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/gas_greyDiamonds"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_gas"
+                    app:layout_constraintStart_toEndOf="@+id/gas_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/gas_greyDiamonds" />
 
                 <ImageView
                     android:id="@+id/gas_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
 
                 <TextView
                     android:id="@+id/gas_diamondText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:gravity="center"
-                    android:text="28"
-                    android:textSize="22dp" />
-            </RelativeLayout>
+                    android:text="12"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/gas_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/gas_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/gas_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/gas_greyDiamonds" />
 
-            <TextView
-                android:id="@+id/gas_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Gas"
-                android:text="gas   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_icon_gas"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/gas_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/gas_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_gas" />
 
-            <ImageView
-                android:id="@+id/home_icon_gas"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_gas" />
+                <ImageView
+                    android:id="@+id/home_line6"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-        </TableRow>
+                <Button
+                    android:id="@+id/gas_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Gas"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_trash"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/trash_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="trash"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/trash_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_trash"
+                    app:layout_constraintStart_toEndOf="@+id/trash_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/trash_diamondText" />
 
                 <ImageView
                     android:id="@+id/trash_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
 
                 <TextView
                     android:id="@+id/trash_diamondText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:gravity="center"
-                    android:text="28"
-                    android:textSize="22dp" />
-            </RelativeLayout>
+                    android:text="2"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/trash_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/trash_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/trash_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/trash_greyDiamonds" />
 
-            <TextView
-                android:id="@+id/trash_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Trash"
-                android:text="trash   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_icon_trash"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/trash_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/trash_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_trash" />
 
-            <ImageView
-                android:id="@+id/home_icon_trash"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_trash" />
-        </TableRow>
+                <ImageView
+                    android:id="@+id/home_line7"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                <Button
+                    android:id="@+id/trash_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Trash"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_groceries"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/groceries_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="groceries"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/groceries_greyDiamonds"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_groceries"
+                    app:layout_constraintStart_toEndOf="@+id/groceries_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/groceries_greyDiamonds" />
 
                 <ImageView
                     android:id="@+id/groceries_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons_gs"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/groceries_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Groceries"
-                android:text="groceries   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
-
-            <ImageView
-                android:id="@+id/home_icon_groceries"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_groceries" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_inset_greydiamond" />
 
                 <ImageView
-                    android:id="@+id/settings_greyDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:cropToPadding="false"
+                    android:id="@+id/home_icon_groceries"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home_optionbuttons_gs"
-                    tools:layout_editor_absoluteX="29dp"
-                    tools:layout_editor_absoluteY="0dp" />
-            </RelativeLayout>
+                    app:layout_constraintBottom_toBottomOf="@+id/groceries_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/groceries_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_groceries" />
 
-            <TextView
-                android:id="@+id/settings_btn"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway_light"
-                android:gravity="right|center_vertical"
-                android:onClick="open_Settings"
-                android:text="settings   "
-                android:textAllCaps="false"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/home_line8"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
 
-            <ImageView
-                android:id="@+id/home_icon_settings"
-                android:layout_width="5dp"
+                <Button
+                    android:id="@+id/groceries_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Groceries"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_custom1"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/icon_settings" />
+                tools:layout_editor_absoluteY="70dp">
 
-        </TableRow>
-    </TableLayout>
+                <TextView
+                    android:id="@+id/custom1_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="custom"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/custom1_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_custom1"
+                    app:layout_constraintStart_toEndOf="@+id/custom1_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/custom1_diamondText" />
+
+                <ImageView
+                    android:id="@+id/custom1_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/custom1_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom1_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/custom1_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/custom1_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/custom1_greyDiamonds" />
+
+                <ImageView
+                    android:id="@+id/home_icon_custom1"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom1_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/custom1_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_custom" />
+
+                <ImageView
+                    android:id="@+id/home_line9"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/custom1_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Custom1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_custom2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="70dp">
+
+                <TextView
+                    android:id="@+id/custom2_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="custom"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/custom2_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_custom2"
+                    app:layout_constraintStart_toEndOf="@+id/custom2_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/custom2_diamondText" />
+
+                <ImageView
+                    android:id="@+id/custom2_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/custom2_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom2_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/custom2_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/custom2_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/custom2_greyDiamonds" />
+
+                <ImageView
+                    android:id="@+id/home_icon_custom2"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom2_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/custom2_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_custom" />
+
+                <ImageView
+                    android:id="@+id/home_line10"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/custom2_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Custom2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_custom3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="70dp">
+
+                <TextView
+                    android:id="@+id/custom3_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="custom"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/custom3_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_custom3"
+                    app:layout_constraintStart_toEndOf="@+id/custom3_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/custom3_diamondText" />
+
+                <ImageView
+                    android:id="@+id/custom3_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/custom3_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom3_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/custom3_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/custom3_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/custom3_greyDiamonds" />
+
+                <ImageView
+                    android:id="@+id/home_icon_custom3"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom3_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/custom3_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_custom" />
+
+                <ImageView
+                    android:id="@+id/home_line11"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/custom3_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Custom3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_custom4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="70dp">
+
+                <TextView
+                    android:id="@+id/custom4_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="custom"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/custom4_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_custom4"
+                    app:layout_constraintStart_toEndOf="@+id/custom4_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/custom4_diamondText" />
+
+                <ImageView
+                    android:id="@+id/custom4_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/custom4_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom4_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/custom4_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/custom4_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/custom4_greyDiamonds" />
+
+                <ImageView
+                    android:id="@+id/home_icon_custom4"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom4_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/custom4_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_custom" />
+
+                <ImageView
+                    android:id="@+id/home_line12"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/custom4_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Custom4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_custom5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="70dp">
+
+                <TextView
+                    android:id="@+id/custom5_staticText"
+                    android:layout_width="0dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="right|center_vertical"
+                    android:text="custom"
+                    android:fontFamily=""
+                    app:layout_constraintBottom_toBottomOf="@+id/custom5_diamondText"
+                    app:layout_constraintEnd_toStartOf="@+id/home_icon_custom5"
+                    app:layout_constraintStart_toEndOf="@+id/custom5_diamondText"
+                    app:layout_constraintTop_toTopOf="@+id/custom5_diamondText" />
+
+                <ImageView
+                    android:id="@+id/custom5_greyDiamonds"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_border_greendiamond" />
+
+                <TextView
+                    android:id="@+id/custom5_diamondText"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom5_greyDiamonds"
+                    app:layout_constraintEnd_toEndOf="@+id/custom5_greyDiamonds"
+                    app:layout_constraintStart_toStartOf="@+id/custom5_greyDiamonds"
+                    app:layout_constraintTop_toTopOf="@+id/custom5_greyDiamonds" />
+
+                <ImageView
+                    android:id="@+id/home_icon_custom5"
+                    android:layout_width="35dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/custom5_staticText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/custom5_staticText"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/icon_custom" />
+
+                <ImageView
+                    android:id="@+id/home_line13"
+                    android:layout_width="0dp"
+                    android:layout_height="0.75dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/home_gradientline" />
+
+                <Button
+                    android:id="@+id/custom5_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="open_Custom5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

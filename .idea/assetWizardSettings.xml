@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -14,11 +19,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="2" />
-                            <entry key="outputName" value="home_gradientline" />
+                            <entry key="height" value="30" />
+                            <entry key="outputName" value="generic_pricebox" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Will Htun\Desktop\gradientline.svg" />
-                            <entry key="width" value="258" />
+                            <entry key="sourceFile" value="C:\Users\Will Htun\Desktop\generic_pricebox.svg" />
+                            <entry key="width" value="100" />
                           </map>
                         </option>
                       </PersistentState>

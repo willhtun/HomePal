@@ -33,21 +33,20 @@ public class Internet extends AppCompatActivity {
         setContentView(R.layout.activity_internet);
 
         mDatabaseHelper = new DatabaseHelper(getApplicationContext());
-        mCalendarHelper = new CalendarHelper(mDatabaseHelper);
+        mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
 
         duedate = mDatabaseHelper.getDate_fromDueDate(type); if (duedate < 0) duedate = 1;
         duemonth = mCalendarHelper.getCycleMonth(type);
         dueyear = mCalendarHelper.getCycleYear(type);
 
-        internet_p0_btn = (ImageView) findViewById(R.id.internet_payBtn);
-        internet_p1_btn = (ImageView) findViewById(R.id.internet_person1);
-        internet_p2_btn = (ImageView) findViewById(R.id.internet_person2);
-        internet_p3_btn = (ImageView) findViewById(R.id.internet_person3);
-        internet_p4_btn = (ImageView) findViewById(R.id.internet_person4);
-        internet_p5_btn = (ImageView) findViewById(R.id.internet_person5);
+        internet_p0_btn = findViewById(R.id.internet_payBtn);
+        internet_p1_btn = findViewById(R.id.internet_person1);
+        internet_p2_btn = findViewById(R.id.internet_person2);
+        internet_p3_btn = findViewById(R.id.internet_person3);
+        internet_p4_btn = findViewById(R.id.internet_person4);
+        internet_p5_btn = findViewById(R.id.internet_person5);
 
         ((TextView) findViewById(R.id.internet_dueDate)).setText("Due: " + duemonth + "/" + duedate);
-        ((TextView) findViewById(R.id.internet_cost)).setText("$ " + String.valueOf(mDatabaseHelper.getCost_fromDueDate(type)));
 
         loadHistory();
 
@@ -56,52 +55,47 @@ public class Internet extends AppCompatActivity {
 
     public void internet_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), mCalendarHelper.getTodayDate(), 0);
-        ((TextView) findViewById(R.id.internet_payBtn_text)).setTextColor(Color.WHITE);
         ((TextView) findViewById(R.id.internet_payBtn_text)).setText("PAID");
-        internet_p0_btn.setImageResource(R.drawable.internet_paybutton);
+        ((TextView) findViewById(R.id.internet_payBtn_text)).setTextColor(Color.WHITE);
+        internet_p0_btn.setImageResource(R.drawable.generic_paidbutton);
         loadHistory();
     }
 
     public void internet_person1_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 111, 1);
-        ((TextView) findViewById(R.id.internet_person1_text)).setTextColor(Color.WHITE);
-        internet_p1_btn.setImageResource(R.drawable.internet_personpaidbutton);
+        internet_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void internet_person2_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 222, 2);
-        ((TextView) findViewById(R.id.internet_person2_text)).setTextColor(Color.WHITE);
-        internet_p2_btn.setImageResource(R.drawable.internet_personpaidbutton);
+        internet_p2_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void internet_person3_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 333, 3);
-        ((TextView) findViewById(R.id.internet_person3_text)).setTextColor(Color.WHITE);
-        internet_p3_btn.setImageResource(R.drawable.internet_personpaidbutton);
+        internet_p3_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void internet_person4_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 444, 4);
-        ((TextView) findViewById(R.id.internet_person4_text)).setTextColor(Color.WHITE);
-        internet_p4_btn.setImageResource(R.drawable.internet_personpaidbutton);
+        internet_p4_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void internet_person5_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 555, 5);
-        ((TextView) findViewById(R.id.internet_person5_text)).setTextColor(Color.WHITE);
-        internet_p5_btn.setImageResource(R.drawable.internet_personpaidbutton);
+        internet_p5_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void loadButtons() {
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),0)) {
-            ((TextView) findViewById(R.id.internet_payBtn_text)).setTextColor(Color.WHITE);
             ((TextView) findViewById(R.id.internet_payBtn_text)).setText("PAID");
-            internet_p0_btn.setImageResource(R.drawable.internet_paybutton);
+            internet_p0_btn.setImageResource(R.drawable.generic_paidbutton);
+            ((TextView) findViewById(R.id.internet_payBtn_text)).setTextColor(Color.WHITE);
         }
         else{
             internet_p0_btn.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +103,10 @@ public class Internet extends AppCompatActivity {
                     internet_pay();
                 }
             });
+            ((TextView) findViewById(R.id.internet_payBtn_text)).setTextColor(Color.parseColor("#5DB699"));
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),1)) {
-            ((TextView) findViewById(R.id.internet_person1_text)).setTextColor(Color.WHITE);
-            internet_p1_btn.setImageResource(R.drawable.internet_personpaidbutton);
+            internet_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             internet_p1_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -124,8 +118,7 @@ public class Internet extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),2)) {
-            ((TextView) findViewById(R.id.internet_person2_text)).setTextColor(Color.WHITE);
-            internet_p2_btn.setImageResource(R.drawable.internet_personpaidbutton);
+            internet_p2_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             internet_p2_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -137,8 +130,7 @@ public class Internet extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),3)) {
-            ((TextView) findViewById(R.id.internet_person3_text)).setTextColor(Color.WHITE);
-            internet_p3_btn.setImageResource(R.drawable.internet_personpaidbutton);
+            internet_p3_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             internet_p3_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -150,8 +142,7 @@ public class Internet extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),4)) {
-            ((TextView) findViewById(R.id.internet_person4_text)).setTextColor(Color.WHITE);
-            internet_p4_btn.setImageResource(R.drawable.internet_personpaidbutton);
+            internet_p4_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             internet_p4_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -163,8 +154,7 @@ public class Internet extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),5)) {
-            ((TextView) findViewById(R.id.internet_person5_text)).setTextColor(Color.WHITE);
-            internet_p5_btn.setImageResource(R.drawable.internet_personpaidbutton);
+            internet_p5_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             internet_p5_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -226,6 +216,7 @@ public class Internet extends AppCompatActivity {
     }
 
     public void loadHistory() {
+        /*
         TextView history1 = (TextView) findViewById(R.id.internet_paidDate1);
         history1.setText(mDatabaseHelper.getPaidDate_fromHistory(type, duemonth-3, dueyear)[2]);
         if (history1.getText() == "")
@@ -265,5 +256,6 @@ public class Internet extends AppCompatActivity {
                 }
             });
         }
+        */
     }
 }

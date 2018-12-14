@@ -33,21 +33,20 @@ public class Gas extends AppCompatActivity {
         setContentView(R.layout.activity_gas);
 
         mDatabaseHelper = new DatabaseHelper(getApplicationContext());
-        mCalendarHelper = new CalendarHelper(mDatabaseHelper);
+        mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
 
         duedate = mDatabaseHelper.getDate_fromDueDate(type); if (duedate < 0) duedate = 1;
         duemonth = mCalendarHelper.getCycleMonth(type);
         dueyear = mCalendarHelper.getCycleYear(type);
 
-        gas_p0_btn = (ImageView) findViewById(R.id.gas_payBtn);
-        gas_p1_btn = (ImageView) findViewById(R.id.gas_person1);
-        gas_p2_btn = (ImageView) findViewById(R.id.gas_person2);
-        gas_p3_btn = (ImageView) findViewById(R.id.gas_person3);
-        gas_p4_btn = (ImageView) findViewById(R.id.gas_person4);
-        gas_p5_btn = (ImageView) findViewById(R.id.gas_person5);
+        gas_p0_btn = findViewById(R.id.gas_payBtn);
+        gas_p1_btn = findViewById(R.id.gas_person1);
+        gas_p2_btn = findViewById(R.id.gas_person2);
+        gas_p3_btn = findViewById(R.id.gas_person3);
+        gas_p4_btn = findViewById(R.id.gas_person4);
+        gas_p5_btn = findViewById(R.id.gas_person5);
 
         ((TextView) findViewById(R.id.gas_dueDate)).setText("Due: " + duemonth + "/" + duedate);
-        ((TextView) findViewById(R.id.gas_cost)).setText("$ " + String.valueOf(mDatabaseHelper.getCost_fromDueDate(type)));
 
         loadHistory();
 
@@ -56,52 +55,47 @@ public class Gas extends AppCompatActivity {
 
     public void gas_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), mCalendarHelper.getTodayDate(), 0);
-        ((TextView) findViewById(R.id.gas_payBtn_text)).setTextColor(Color.WHITE);
         ((TextView) findViewById(R.id.gas_payBtn_text)).setText("PAID");
-        gas_p0_btn.setImageResource(R.drawable.gas_paybutton);
+        ((TextView) findViewById(R.id.gas_payBtn_text)).setTextColor(Color.WHITE);
+        gas_p0_btn.setImageResource(R.drawable.generic_paidbutton);
         loadHistory();
     }
 
     public void gas_person1_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 111, 1);
-        ((TextView) findViewById(R.id.gas_person1_text)).setTextColor(Color.WHITE);
-        gas_p1_btn.setImageResource(R.drawable.gas_personpaidbutton);
+        gas_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void gas_person2_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 222, 2);
-        ((TextView) findViewById(R.id.gas_person2_text)).setTextColor(Color.WHITE);
-        gas_p2_btn.setImageResource(R.drawable.gas_personpaidbutton);
+        gas_p2_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void gas_person3_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 333, 3);
-        ((TextView) findViewById(R.id.gas_person3_text)).setTextColor(Color.WHITE);
-        gas_p3_btn.setImageResource(R.drawable.gas_personpaidbutton);
+        gas_p3_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void gas_person4_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 444, 4);
-        ((TextView) findViewById(R.id.gas_person4_text)).setTextColor(Color.WHITE);
-        gas_p4_btn.setImageResource(R.drawable.gas_personpaidbutton);
+        gas_p4_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void gas_person5_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 555, 5);
-        ((TextView) findViewById(R.id.gas_person5_text)).setTextColor(Color.WHITE);
-        gas_p5_btn.setImageResource(R.drawable.gas_personpaidbutton);
+        gas_p5_btn.setImageResource(R.drawable.generic_personpaidbutton);
         loadHistory();
     }
 
     public void loadButtons() {
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),0)) {
-            ((TextView) findViewById(R.id.gas_payBtn_text)).setTextColor(Color.WHITE);
             ((TextView) findViewById(R.id.gas_payBtn_text)).setText("PAID");
-            gas_p0_btn.setImageResource(R.drawable.gas_paybutton);
+            gas_p0_btn.setImageResource(R.drawable.generic_paidbutton);
+            ((TextView) findViewById(R.id.gas_payBtn_text)).setTextColor(Color.WHITE);
         }
         else{
             gas_p0_btn.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +103,10 @@ public class Gas extends AppCompatActivity {
                     gas_pay();
                 }
             });
+            ((TextView) findViewById(R.id.gas_payBtn_text)).setTextColor(Color.parseColor("#5DB699"));
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),1)) {
-            ((TextView) findViewById(R.id.gas_person1_text)).setTextColor(Color.WHITE);
-            gas_p1_btn.setImageResource(R.drawable.gas_personpaidbutton);
+            gas_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             gas_p1_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -124,8 +118,7 @@ public class Gas extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),2)) {
-            ((TextView) findViewById(R.id.gas_person2_text)).setTextColor(Color.WHITE);
-            gas_p2_btn.setImageResource(R.drawable.gas_personpaidbutton);
+            gas_p2_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             gas_p2_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -137,8 +130,7 @@ public class Gas extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),3)) {
-            ((TextView) findViewById(R.id.gas_person3_text)).setTextColor(Color.WHITE);
-            gas_p3_btn.setImageResource(R.drawable.gas_personpaidbutton);
+            gas_p3_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             gas_p3_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -150,8 +142,7 @@ public class Gas extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),4)) {
-            ((TextView) findViewById(R.id.gas_person4_text)).setTextColor(Color.WHITE);
-            gas_p4_btn.setImageResource(R.drawable.gas_personpaidbutton);
+            gas_p4_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             gas_p4_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -163,8 +154,7 @@ public class Gas extends AppCompatActivity {
             });
         }
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),5)) {
-            ((TextView) findViewById(R.id.gas_person5_text)).setTextColor(Color.WHITE);
-            gas_p5_btn.setImageResource(R.drawable.gas_personpaidbutton);
+            gas_p5_btn.setImageResource(R.drawable.generic_personpaidbutton);
         }
         else {
             gas_p5_btn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -226,6 +216,7 @@ public class Gas extends AppCompatActivity {
     }
 
     public void loadHistory() {
+        /*
         TextView history1 = (TextView) findViewById(R.id.gas_paidDate1);
         history1.setText(mDatabaseHelper.getPaidDate_fromHistory(type, duemonth-3, dueyear)[2]);
         if (history1.getText() == "")
@@ -265,5 +256,6 @@ public class Gas extends AppCompatActivity {
                 }
             });
         }
+        */
     }
 }

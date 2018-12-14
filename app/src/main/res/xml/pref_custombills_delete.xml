@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Add custom bills">
+
+        <Preference
+            android:summary=""
+            android:key="name_preference_bills_custom1_delete"
+            android:title="Tap to add custom bill" />
+
+        <Preference
+            android:summary=""
+            android:key="name_preference_bills_custom2_delete"
+            android:title="Tap to add custom bill" />
+
+        <Preference
+            android:summary=""
+            android:key="name_preference_bills_custom3_delete"
+            android:title="Tap to add custom bill" />
+
+        <Preference
+            android:summary=""
+            android:key="name_preference_bills_custom4_delete"
+            android:title="Tap to add custom bill" />
+
+        <Preference
+            android:summary=""
+            android:key="name_preference_bills_custom5_delete"
+            android:title="Tap to add custom bill" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
