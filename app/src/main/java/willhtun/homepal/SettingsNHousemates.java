@@ -38,7 +38,7 @@ public class SettingsNHousemates extends AppCompatActivity {
         findViewById(R.id.settings_deleteHousemates_icon5).setVisibility(View.VISIBLE);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.settings_window, new SettingsHousematesDelete_Frag())
+                .replace(R.id.settings_window, new SettingsHousematesDelete_Frag(), "FRAG_HM_D")
                 .addToBackStack(null)
                 .commit();
     }
@@ -54,5 +54,7 @@ public class SettingsNHousemates extends AppCompatActivity {
         findViewById(R.id.settings_deleteHousemates_icon5).setVisibility(View.INVISIBLE);
 
         getSupportFragmentManager().popBackStack();
+
+        ((SettingsHousemates_Frag) getSupportFragmentManager().findFragmentByTag("FRAG_HM")).refreshHousemates();
     }
 }

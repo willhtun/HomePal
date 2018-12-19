@@ -2,12 +2,16 @@ package willhtun.homepal;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    Context context;
+
     private static final String TABLE_NAME_CUSTOMS = "customs_table";
     private static final String CUSTOM_INDEX = "ind";
     private static final String CUSTOM_NAME = "name";
@@ -27,9 +31,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String PAID_P3 = "paid_person3";
     private static final String PAID_P4 = "paid_person4";
     private static final String PAID_P5 = "paid_person5";
+    private static final String NAME_P1 = "name_person1";
+    private static final String NAME_P2 = "name_person2";
+    private static final String NAME_P3 = "name_person3";
+    private static final String NAME_P4 = "name_person4";
+    private static final String NAME_P5 = "name_person5";
 
-    public DatabaseHelper(Context context) {
-        super(context, "HomePal_db", null, 1 );
+    public DatabaseHelper(Context m_context) {
+        super(m_context, "HomePal_db", null, 1 );
+        context = m_context;
     }
 
     @Override
@@ -54,7 +64,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 PAID_P2 + " INTEGER," +
                 PAID_P3 + " INTEGER," +
                 PAID_P4 + " INTEGER," +
-                PAID_P5 + " INTEGER)";
+                PAID_P5 + " INTEGER," +
+                NAME_P1 + " TEXT," +
+                NAME_P2 + " TEXT," +
+                NAME_P3 + " TEXT," +
+                NAME_P4 + " TEXT," +
+                NAME_P5 + " TEXT)";
         db.execSQL(create_history_table);
     }
 
@@ -108,6 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addData_toHistory(String typ, String mon, int pd, int personNum, float price) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (!checkIfRowExists(TABLE_NAME_HISTORY, TYPE_MONTH, typ+"_"+mon)) {
             contentValues.put(TYPE_MONTH, typ + "_" + mon);
@@ -119,9 +135,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(PAID_P3, 0);
             contentValues.put(PAID_P4, 0);
             contentValues.put(PAID_P5, 0);
+            contentValues.put(NAME_P1, preferences.getString("name_preference_housemates1", "--"));
+            contentValues.put(NAME_P2, preferences.getString("name_preference_housemates2", "--"));
+            contentValues.put(NAME_P3, preferences.getString("name_preference_housemates3", "--"));
+            contentValues.put(NAME_P4, preferences.getString("name_preference_housemates4", "--"));
+            contentValues.put(NAME_P5, preferences.getString("name_preference_housemates5", "--"));
 
             long dbinsert = db.replace(TABLE_NAME_HISTORY, null, contentValues);
-            contentValues.clear();
         }
 
         switch (personNum) {
@@ -298,6 +318,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public String[] getHousemates_fromHistory(String typdate) {
+        String output[] = new String[] {"", "", "", "", ""};
+        String key = typdate;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String whereClause = TYPE_MONTH +" LIKE '" + key + "'";
+
+        Cursor c = db.query(
+                TABLE_NAME_HISTORY, // a. table
+                new String[] {TYPE_MONTH, NAME_P1, NAME_P2, NAME_P3, NAME_P4, NAME_P5}, // b. column names
+                whereClause, // c. selections
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        if (c != null && c.moveToFirst()) {
+            for (int z = 0; z < 5; z++) {
+                output[z] = c.getString(z+1);
+            }
+            Log.d("NAMESS", output[0] + " " + output[1] + " " + output[2] + " " + output[3] + " " + output[4]);
+            c.close();
+            return output;
+        }
+        else {
+            c.close();
+            return new String[] {"", "", "", "", ""};
+        }
+    }
+
     public String[] getPaidDate_fromHistory(String typ) {
         String output[] = new String[] {"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""};
         String key = typ + "%";
@@ -318,16 +367,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.d("YYY", c.getString(1) + " " + String.valueOf(c.getFloat(2)) + " " + String.valueOf(c.getInt(3)));
                 if (c.getInt(3) != 0) {
                     //output[i] = c.getString(1) + " " + c.getString(0);
-                    output[i] = c.getString(1) + " " + getMonthName(extractMonth(c.getString(0))) + " '" + String.valueOf(extractYear(c.getString(0)) % 2000);
+                    output[i] = "\u0009\u0009\u0009\u0009\u0009" + c.getString(1) + " " + getMonthName(extractMonth(c.getString(0))) + " '" + String.valueOf(extractYear(c.getString(0)) % 2000);
                     if (c.getString(1).length() == 1)
                         output[i] += "\u0009";
                     output[i] += "\u0009\u0009\u0009\u0009\u0009" + "$" + c.getFloat(2);
-                    if (c.getInt(4) == 0 ||
-                        c.getInt(5) == 0 ||
-                        c.getInt(6) == 0 ||
-                        c.getInt(7) == 0 ||
-                        c.getInt(8) == 0)
-                        output[i] = "u" + output[i];
+                    String persons_paid_arr = String.valueOf(c.getInt(4)) +
+                                            String.valueOf(c.getInt(5)) +
+                                            String.valueOf(c.getInt(6)) +
+                                            String.valueOf(c.getInt(7)) +
+                                            String.valueOf(c.getInt(8));
+                    if (!persons_paid_arr.equals("11111"))
+                        output[i] = "u" + c.getString(0) + "+" + persons_paid_arr + "#" + output[i];
+                    else
+                        output[i] = "p" + c.getString(0) + "+" + persons_paid_arr + "#" + output[i];
                     for (int j = 4; j < c.getColumnNames().length - 5; j++) {
                         output[i] += " " + c.getString(j) + " ";
                     }
@@ -363,6 +415,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (c.getInt(3) != 0) {
                 output = String.valueOf(c.getFloat(2));
             }
+            c.close();
+            return output;
+        }
+        else {
+            c.close();
+            return "";
+        }
+    }
+
+    public String getPriceFromDate_fromHistory (String typdate) {
+        String output = "";
+        String key = typdate;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String whereClause = TYPE_MONTH +" LIKE '" + key + "'";
+
+        Cursor c = db.query(
+                TABLE_NAME_HISTORY, // a. table
+                new String[] {TYPE_MONTH, PAID_AMOUNT}, // b. column names
+                whereClause, // c. selections
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        if (c != null && c.moveToFirst()) {
+            output = String.valueOf(c.getFloat(1));
             c.close();
             return output;
         }

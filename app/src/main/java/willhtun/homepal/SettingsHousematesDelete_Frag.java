@@ -32,35 +32,35 @@ public class SettingsHousematesDelete_Frag extends PreferenceFragmentCompat {
         findPreference("name_preference_housemates1_delete").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                prefs.edit().putBoolean("housemate1_On", false).putString("name_preference_housemates1", "").apply();
+                prefs.edit().putBoolean("housemate1_On", false).putString("name_preference_housemates1", "--").apply();
                 return true;
             }
         });
         findPreference("name_preference_housemates2_delete").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                prefs.edit().putBoolean("housemate2_On", false).putString("name_preference_housemates2", "").apply();
+                prefs.edit().putBoolean("housemate2_On", false).putString("name_preference_housemates2", "--").apply();
                 return true;
             }
         });
         findPreference("name_preference_housemates3_delete").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                prefs.edit().putBoolean("housemate3_On", false).putString("name_preference_housemates3", "").apply();
+                prefs.edit().putBoolean("housemate3_On", false).putString("name_preference_housemates3", "--").apply();
                 return true;
             }
         });
         findPreference("name_preference_housemates4_delete").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                prefs.edit().putBoolean("housemate4_On", false).putString("name_preference_housemates4", "").apply();
+                prefs.edit().putBoolean("housemate4_On", false).putString("name_preference_housemates4", "--").apply();
                 return true;
             }
         });
         findPreference("name_preference_housemates5_delete").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                prefs.edit().putBoolean("housemate5_On", false).putString("name_preference_housemates5", "").apply();
+                prefs.edit().putBoolean("housemate5_On", false).putString("name_preference_housemates5", "--").apply();
                 return true;
             }
         });

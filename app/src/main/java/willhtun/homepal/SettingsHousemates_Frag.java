@@ -55,29 +55,34 @@ public class SettingsHousemates_Frag extends PreferenceFragmentCompat {
         }
     }
 
-    private void refreshHousemates() {// not empty
+    public void refreshHousemates() {// not empty
         findPreference("name_preference_housemates1").setTitle(prefs.getString("name_preference_housemates1", "Error"));
         findPreference("name_preference_housemates2").setTitle(prefs.getString("name_preference_housemates2", "Error"));
         findPreference("name_preference_housemates3").setTitle(prefs.getString("name_preference_housemates3", "Error"));
         findPreference("name_preference_housemates4").setTitle(prefs.getString("name_preference_housemates4", "Error"));
         findPreference("name_preference_housemates5").setTitle(prefs.getString("name_preference_housemates5", "Error"));
 
-        if (prefs.getString("name_preference_housemates1", "").equals("")) {
+        if (prefs.getString("name_preference_housemates1", "").equals("--")) {
             prefs.edit().putBoolean("housemate1_On", false).apply();
+            findPreference("name_preference_housemates1").setDefaultValue("");
         }
-        if (prefs.getString("name_preference_housemates2", "").equals("")) {
+        if (prefs.getString("name_preference_housemates2", "").equals("--")) {
             prefs.edit().putBoolean("housemate2_On", false).apply();
+            findPreference("name_preference_housemates2").setDefaultValue("");
         }
-        if (prefs.getString("name_preference_housemates3", "").equals("")) {
+        if (prefs.getString("name_preference_housemates3", "").equals("--")) {
             prefs.edit().putBoolean("housemate3_On", false).apply();
+            findPreference("name_preference_housemates3").setDefaultValue("");
         }
-        if (prefs.getString("name_preference_housemates4", "").equals("")) {
+        if (prefs.getString("name_preference_housemates4", "").equals("--")) {
             prefs.edit().putBoolean("housemate4_On", false).apply();
+            findPreference("name_preference_housemates4").setDefaultValue("");
         }
-        if (prefs.getString("name_preference_housemates5", "").equals("")) {
+        if (prefs.getString("name_preference_housemates5", "").equals("--")) {
             prefs.edit().putBoolean("housemate5_On", false).apply();
+            findPreference("name_preference_housemates5").setDefaultValue("");
         }
-        
+
         if (!prefs.getBoolean("housemate1_On", false)) {
             findPreference("name_preference_housemates1").setTitle("Tap to add housemate");
             findPreference("name_preference_housemates1").setSummary("");

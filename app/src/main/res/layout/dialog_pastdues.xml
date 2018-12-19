@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_roundedbg">
+
+    <TextView
+        android:id="@+id/pastdues_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Bills Owed"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="XX/XX"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.741" />
+
+    <TextView
+        android:id="@+id/pastdues_housemate1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_housemate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate3"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_housemate3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_housemate4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_housemate5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/dialogBtn_setRemindDays"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_amount1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate1"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_button1"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate1" />
+
+    <TextView
+        android:id="@+id/pastdues_amount2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate2"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_button2"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate2" />
+
+    <TextView
+        android:id="@+id/pastdues_amount3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate3"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_button3"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate3" />
+
+    <TextView
+        android:id="@+id/pastdues_amount4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate4"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_button4"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate4" />
+
+    <TextView
+        android:id="@+id/pastdues_amount5"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate5"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_button5"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate5" />
+
+    <Button
+        android:id="@+id/pastdues_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate1" />
+
+    <Button
+        android:id="@+id/pastdues_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate2" />
+
+    <Button
+        android:id="@+id/pastdues_button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate3" />
+
+    <Button
+        android:id="@+id/pastdues_button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate4" />
+
+    <Button
+        android:id="@+id/pastdues_button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate5" />
+
+    <Button
+        android:id="@+id/dialogBtn_setRemindDays"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/generic_paidbutton"
+        android:onClick="dismiss_pastDuesDialog"
+        android:text="Done"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

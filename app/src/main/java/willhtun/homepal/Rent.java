@@ -3,18 +3,25 @@ package willhtun.homepal;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +38,7 @@ public class Rent extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
     CalendarHelper mCalendarHelper;
-    AlertDialog mHistoryChangerDialog;
+    AlertDialog mPastDues;
 
     ImageView rent_p0_btn;
     ImageView rent_p1_btn;
@@ -64,6 +71,7 @@ public class Rent extends AppCompatActivity {
         rent_p3_btn = findViewById(R.id.rent_person3);
         rent_p4_btn = findViewById(R.id.rent_person4);
         rent_p5_btn = findViewById(R.id.rent_person5);
+        mDatabaseHelper.addData_toHistory(type,"4_2019", 10, 0, price);
 
         ((TextView) findViewById(R.id.rent_dueDate)).setText("Due: " + duemonth + "/" + duedate);
         ((TextView) findViewById(R.id.rent_priceboxtext)).setText ("$" + mDatabaseHelper.getMostRecentPrice_fromHistory(type));
@@ -74,12 +82,8 @@ public class Rent extends AppCompatActivity {
     }
 
     public void rent_pay() {
-        mDatabaseHelper.addData_toHistory(type, "11_2018", 25, 0, price);
-        mDatabaseHelper.addData_toHistory(type,"10_2018", 2, 0, price);
-        mDatabaseHelper.addData_toHistory(type,"8_2018", 22, 0, price);
-        mDatabaseHelper.addData_toHistory(type, "1_2017", 16, 0, price);
-        mDatabaseHelper.addData_toHistory(type,"9_2018", 22, 0, price);
-       // mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), mCalendarHelper.getTodayDate(), 0);
+        mDatabaseHelper.addData_toHistory(type, Integer.toString(5) + "_" + 2019, mCalendarHelper.getTodayDate(), 0, price);
+        //mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), mCalendarHelper.getTodayDate(), 0, price);
         ((TextView) findViewById(R.id.rent_payBtn_text)).setText("PAID");
         ((TextView) findViewById(R.id.rent_payBtn_text)).setTextColor(Color.WHITE);
         rent_p0_btn.setImageResource(R.drawable.generic_paidbutton);
@@ -146,6 +150,21 @@ public class Rent extends AppCompatActivity {
     }
 
     public void loadButtons() {
+        rent_p0_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Press and hold to pay", Toast.LENGTH_SHORT).show();
+            }
+        });
+        rent_p0_btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                rent_pay();
+                return true;
+            }
+        });
+        ((TextView) findViewById(R.id.rent_payBtn_text)).setTextColor(Color.parseColor("#5DB699"));
+
+        /*
         if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type),0)) {
             ((TextView) findViewById(R.id.rent_payBtn_text)).setText("PAID");
             rent_p0_btn.setImageResource(R.drawable.generic_paidbutton);
@@ -166,6 +185,7 @@ public class Rent extends AppCompatActivity {
             });
             ((TextView) findViewById(R.id.rent_payBtn_text)).setTextColor(Color.parseColor("#5DB699"));
         }
+        */
 
         if (preferences.getBoolean("settings_billSharingOn", false)) {
             if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type), 1)) {
@@ -263,140 +283,109 @@ public class Rent extends AppCompatActivity {
         }
     }
 
-    public void change_history() {
-        AlertDialog.Builder historyChanger_Builder = new AlertDialog.Builder(Rent.this);
-        View reminder_view = getLayoutInflater().inflate(R.layout.dialog_historychanger, null);
-        historyChanger_Builder.setView(reminder_view);
-        mHistoryChangerDialog = historyChanger_Builder.create();
-
-        ((Button) findViewById(R.id.history_person1_btn)).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // person 1 pay on history date
-                return true;
-            }
-        });
-        ((Button) findViewById(R.id.history_person1_btn)).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // person 2 pay on history date
-                return true;
-            }
-        });
-
-        ((Button) findViewById(R.id.history_person1_btn)).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // person 3 pay on history date
-                return true;
-            }
-        });
-
-        ((Button) findViewById(R.id.history_person1_btn)).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // person 4 pay on history date
-                return true;
-            }
-        });
-
-        ((Button) findViewById(R.id.history_person1_btn)).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // person 5 pay on history date
-                return true;
-            }
-        });
-
-        mHistoryChangerDialog.show();
-    }
-
     public void loadHistory() {
         LinearLayout ll = findViewById(R.id.rent_history);
-        LinearLayout ll_u = findViewById(R.id.rent_history_unpaiddues);
 
         for (int i = 0; i < 20; i++) {
-            TextView b = new TextView(this);
-            TextView b_u = new TextView(this);
+            LinearLayout rl = new LinearLayout(this);
+            TextView textEntry = new TextView(this);
+            ImageButton duesButton = new ImageButton(this);
             String text = mDatabaseHelper.getPaidDate_fromHistory(type)[i];
+            String period;
+            String personsPaidStats;
+            
             if (!text.equals("")) {
+                int t = 0;
+                int u = 0;
+                if (text.charAt(0) == 'u') // Unpaid Dues
+                    duesButton.setImageResource(R.drawable.icon_electricity);
+                else
+                    duesButton.setVisibility(View.INVISIBLE);
+                while (text.charAt(t) != '+')
+                    t++;
+                period = text.substring(1, t);
+                t++;
+                u = t;
+                while (text.charAt(t) != '#')
+                    t++;
+                personsPaidStats = text.substring(u, t);
+                text = text.substring(t+1);
+                textEntry.setText(text);
+                textEntry.setGravity(Gravity.CENTER_VERTICAL);
+                textEntry.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                
+                duesButton.setBackground(null);
+                duesButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                duesButton.setPadding(0,0,0,0);
 
-                if (text.charAt(0) == 'u') { // Unpaid Dues
-                    b_u.setText("Unpaid Dues");
-                    b.setText(text.substring(1));
-                }
-                else {
-                    b_u.setText("");
-                    b.setText(text);
-                }
+                duesButton.setOnClickListener(new ArgsOnClickListener(this, period, personsPaidStats) {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder pastDues_builder = new AlertDialog.Builder(Rent.this);
+                        View pastDues_view = getLayoutInflater().inflate(R.layout.dialog_pastdues, null);
+                        pastDues_builder.setView(pastDues_view);
+                        mPastDues = pastDues_builder.create();
+                        mPastDues.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(30,30,30,30);
-                b.setLayoutParams(params);
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_date)).setText(period);
 
-                LinearLayout.LayoutParams params_u = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params_u.setMargins(30,30,30,30);
-                b_u.setLayoutParams(params);
+                        if (persons[0] == 0)
+                            ((Button) pastDues_view.findViewById(R.id.pastdues_button1)).setVisibility(View.INVISIBLE);
+                        if (persons[1] == 0)
+                            ((Button) pastDues_view.findViewById(R.id.pastdues_button2)).setVisibility(View.INVISIBLE);
+                        if (persons[2] == 0)
+                            ((Button) pastDues_view.findViewById(R.id.pastdues_button3)).setVisibility(View.INVISIBLE);
+                        if (persons[3] == 0)
+                            ((Button) pastDues_view.findViewById(R.id.pastdues_button4)).setVisibility(View.INVISIBLE);
+                        if (persons[4] == 0)
+                            ((Button) pastDues_view.findViewById(R.id.pastdues_button5)).setVisibility(View.INVISIBLE);
 
-                b.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                b_u.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                        String[] housemates_names = mDatabaseHelper.getHousemates_fromHistory(period);
+                        Log.d("NAMESS_2", housemates_names[0] + " " + housemates_names[1] + " " + housemates_names[2] + " " + housemates_names[3] + " " + housemates_names[4]);
 
-                ll.addView(b);
-                ll_u.addView(b_u);
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate1)).setText(housemates_names[0]);
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate2)).setText(housemates_names[1]);
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate3)).setText(housemates_names[2]);
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate4)).setText(housemates_names[3]);
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate5)).setText(housemates_names[4]);
+
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_amount1)).setText(mDatabaseHelper.getPriceFromDate_fromHistory(period));
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_amount2)).setText(mDatabaseHelper.getPriceFromDate_fromHistory(period));
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_amount3)).setText(mDatabaseHelper.getPriceFromDate_fromHistory(period));
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_amount4)).setText(mDatabaseHelper.getPriceFromDate_fromHistory(period));
+                        ((TextView) pastDues_view.findViewById(R.id.pastdues_amount5)).setText(mDatabaseHelper.getPriceFromDate_fromHistory(period));
+
+                        mPastDues.show();
+                    }
+                });
+
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                textEntry.setLayoutParams(params);
+
+                LinearLayout.LayoutParams params_u = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                duesButton.setLayoutParams(params_u);
+
+                LinearLayout.LayoutParams params_rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) dipToPix(30f));
+                params_rl.setMargins(30,30,30,30);
+                params_rl.setLayoutDirection(LinearLayout.HORIZONTAL);
+                rl.setLayoutParams(params_rl);
+                
+                rl.addView(textEntry);
+                rl.addView(duesButton);
+                ll.addView(rl);
             }
         }
-        /*
-        TextView history1 = (TextView) findViewById(R.id.rent_paidDate1);
-        history1.setText(mDatabaseHelper.getPaidDate_fromHistory(type, duemonth-3, dueyear)[2]);
-        if (history1.getText() == "")
-            findViewById(R.id.rent_paidDate1_bullet).setVisibility(View.INVISIBLE);
-        else {
-            history1.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    return true;
-                }
-            });
-        }
-        TextView history2 = (TextView) findViewById(R.id.rent_paidDate2);
-        history2.setText(mDatabaseHelper.getPaidDate_fromHistory(type, duemonth-2, dueyear)[1]);
-        if (history2.getText() == "")
-            findViewById(R.id.rent_paidDate2_bullet).setVisibility(View.INVISIBLE);
-        else {
-            history1.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    return true;
-                }
-            });
-        }
-        TextView history3 = (TextView) findViewById(R.id.rent_paidDate3);
-        history3.setText(mDatabaseHelper.getPaidDate_fromHistory(type, duemonth-1, dueyear)[0]);
-        if (history3.getText() == "")
-            findViewById(R.id.rent_paidDate3_bullet).setVisibility(View.INVISIBLE);
-        else {
-            history1.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    return true;
-                }
-            });
-        }
-        */
     }
 
+    public void show_pricePicker(View view) {
+        AlertDialog.Builder pricePicker_Builder = new AlertDialog.Builder(Rent.this);
+        View pricePicker_view = getLayoutInflater().inflate(R.layout.dialog_pricepicker, null);
+        pricePicker_Builder.setView(pricePicker_view);
+        pricepickerdialog = pricePicker_Builder.create();
 
-    public void show_reminderPicker(View view) {
-        AlertDialog.Builder reminderPicker_Builder = new AlertDialog.Builder(Rent.this);
-        View reminder_view = getLayoutInflater().inflate(R.layout.dialog_pricepicker, null);
-        reminderPicker_Builder.setView(reminder_view);
-        pricepickerdialog = reminderPicker_Builder.create();
-
-        et_pricebox = reminder_view.findViewById(R.id.dialog_setPricePicker);
-
+        et_pricebox = pricePicker_view.findViewById(R.id.dialog_setPricePicker);
+        pricepickerdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         pricepickerdialog.show();
     }
 
@@ -404,5 +393,19 @@ public class Rent extends AppCompatActivity {
         ((TextView) findViewById(R.id.rent_priceboxtext)).setText("$" + et_pricebox.getText());
         price = Float.parseFloat(et_pricebox.getText().toString());
         pricepickerdialog.dismiss();
+    }
+
+    public void dismiss_pastDuesDialog(View view) {
+        mPastDues.dismiss();
+    }
+
+    private float dipToPix(float dip) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dip,
+                r.getDisplayMetrics()
+        );
+        return px;
     }
 }
