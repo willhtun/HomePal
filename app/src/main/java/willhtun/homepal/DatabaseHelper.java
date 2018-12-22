@@ -173,6 +173,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addData_toHistory_typemon(String typmon, int pd, int personNum, float price) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (!checkIfRowExists(TABLE_NAME_HISTORY, TYPE_MONTH, typmon)) {
+            contentValues.put(TYPE_MONTH, typmon);
+            contentValues.put(PAID_DATE, 000000);
+            contentValues.put(PAID_AMOUNT, 00.00);
+            contentValues.put(PAID_ME, 0);
+            contentValues.put(PAID_P1, 0);
+            contentValues.put(PAID_P2, 0);
+            contentValues.put(PAID_P3, 0);
+            contentValues.put(PAID_P4, 0);
+            contentValues.put(PAID_P5, 0);
+            contentValues.put(NAME_P1, preferences.getString("name_preference_housemates1", "--"));
+            contentValues.put(NAME_P2, preferences.getString("name_preference_housemates2", "--"));
+            contentValues.put(NAME_P3, preferences.getString("name_preference_housemates3", "--"));
+            contentValues.put(NAME_P4, preferences.getString("name_preference_housemates4", "--"));
+            contentValues.put(NAME_P5, preferences.getString("name_preference_housemates5", "--"));
+
+            long dbinsert = db.replace(TABLE_NAME_HISTORY, null, contentValues);
+        }
+
+        switch (personNum) {
+            case 0:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_ME + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_DATE + " = " + pd + " WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_AMOUNT + " = " + price + " WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
+            case 1:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P1 + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
+            case 2:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P2 + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
+            case 3:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P3 + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
+            case 4:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P4 + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
+            case 5:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P5 + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+            case 9:
+                db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_AMOUNT + " = " + price + " WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
+            default:
+                break;
+        }
+        db.close();
+    }
+
     public boolean checkIfRowExists(String table, String row, String key) {
         SQLiteDatabase db_read = this.getReadableDatabase();
         Cursor read_c = db_read.rawQuery("SELECT * FROM " + table + " WHERE " + row + " = '" + key + "'", null);

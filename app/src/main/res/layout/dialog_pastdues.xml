@@ -25,10 +25,10 @@
         android:id="@+id/pastdues_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="48dp"
         android:text="XX/XX"
         app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +40,8 @@
         android:id="@+id/pastdues_housemate1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate2"
@@ -51,8 +51,8 @@
         android:id="@+id/pastdues_housemate2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate3"
         app:layout_constraintStart_toStartOf="parent" />
@@ -61,8 +61,8 @@
         android:id="@+id/pastdues_housemate3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate4"
         app:layout_constraintStart_toStartOf="parent" />
@@ -71,8 +71,8 @@
         android:id="@+id/pastdues_housemate4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate5"
         app:layout_constraintStart_toStartOf="parent" />
@@ -81,8 +81,8 @@
         android:id="@+id/pastdues_housemate5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="48dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/dialogBtn_setRemindDays"
         app:layout_constraintStart_toStartOf="parent" />
@@ -91,7 +91,7 @@
         android:id="@+id/pastdues_amount1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate1"
         app:layout_constraintEnd_toStartOf="@+id/pastdues_button1"
@@ -101,7 +101,7 @@
         android:id="@+id/pastdues_amount2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate2"
         app:layout_constraintEnd_toStartOf="@+id/pastdues_button2"
@@ -111,7 +111,7 @@
         android:id="@+id/pastdues_amount3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate3"
         app:layout_constraintEnd_toStartOf="@+id/pastdues_button3"
@@ -121,7 +121,7 @@
         android:id="@+id/pastdues_amount4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate4"
         app:layout_constraintEnd_toStartOf="@+id/pastdues_button4"
@@ -131,57 +131,72 @@
         android:id="@+id/pastdues_amount5"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate5"
         app:layout_constraintEnd_toStartOf="@+id/pastdues_button5"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate5" />
 
-    <Button
+    <ImageButton
         android:id="@+id/pastdues_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pastdues_paybutton"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate1" />
 
-    <Button
+    <ImageButton
         android:id="@+id/pastdues_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pastdues_paybutton"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate2" />
 
-    <Button
+    <ImageButton
         android:id="@+id/pastdues_button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pastdues_paybutton"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate3" />
 
-    <Button
+    <ImageButton
         android:id="@+id/pastdues_button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pastdues_paybutton"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate4" />
 
-    <Button
+    <ImageButton
         android:id="@+id/pastdues_button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pastdues_paybutton"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -203,5 +218,60 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_button1text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_button1"
+        app:layout_constraintEnd_toEndOf="@+id/pastdues_button1"
+        app:layout_constraintStart_toStartOf="@+id/pastdues_button1"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_button1" />
+
+    <TextView
+        android:id="@+id/pastdues_button2text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_button2"
+        app:layout_constraintEnd_toEndOf="@+id/pastdues_button2"
+        app:layout_constraintStart_toStartOf="@+id/pastdues_button2"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_button2" />
+
+    <TextView
+        android:id="@+id/pastdues_button3text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_button3"
+        app:layout_constraintEnd_toEndOf="@+id/pastdues_button3"
+        app:layout_constraintStart_toStartOf="@+id/pastdues_button3"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_button3" />
+
+    <TextView
+        android:id="@+id/pastdues_button4text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_button4"
+        app:layout_constraintEnd_toEndOf="@+id/pastdues_button4"
+        app:layout_constraintStart_toStartOf="@+id/pastdues_button4"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_button4" />
+
+    <TextView
+        android:id="@+id/pastdues_button5text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_button5"
+        app:layout_constraintEnd_toEndOf="@+id/pastdues_button5"
+        app:layout_constraintStart_toStartOf="@+id/pastdues_button5"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_button5" />
 
 </android.support.constraint.ConstraintLayout>
