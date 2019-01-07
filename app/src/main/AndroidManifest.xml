@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".Home">
+        <activity android:name=".Home"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -22,13 +23,42 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Rent" />
-        <activity android:name=".Internet" />
-        <activity android:name=".Electricity" />
-        <activity android:name=".Water" />
-        <activity android:name=".Gas" />
-        <activity android:name=".Trash" />
-        <activity android:name=".Settings" />
+        <activity android:name=".Rent"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Car"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Internet"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Mobile"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Electricity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Water"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Gas"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Trash"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Custom1"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Custom2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Custom3"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Custom4"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Custom5"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SettingsN"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SettingsNAddBills"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SettingsNDueDates"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SettingsNHousemates"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SettingsNBillSharing"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".NotificationTask" />
         <receiver
@@ -46,18 +76,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".SettingsN" />
-        <activity android:name=".Car" />
-        <activity android:name=".Mobile" />
-        <activity android:name=".Custom1" />
-        <activity android:name=".Custom2" />
-        <activity android:name=".Custom3" />
-        <activity android:name=".Custom4" />
-        <activity android:name=".Custom5" />
-        <activity android:name=".SettingsNAddBills" />
-        <activity android:name=".SettingsNDueDates" />
-        <activity android:name=".SettingsNHousemates" />
-        <activity android:name=".SettingsNCustomBills"></activity>
     </application>
 
 </manifest>

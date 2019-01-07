@@ -10,7 +10,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class NotificationScheduler extends BroadcastReceiver {
+public class NotificationScheduler_Midnight extends BroadcastReceiver {
 
     CalendarHelper calendarHelper;
     DatabaseHelper databaseHelper;
@@ -23,23 +23,10 @@ public class NotificationScheduler extends BroadcastReceiver {
         calendarHelper = new CalendarHelper(databaseHelper, context);
         thisCon = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(thisCon);
-        if (isBillDueSoon() && isNotificationOn())
-            scheduleNotification(context, intent);
 
         handleOverdues("rent");
-    }
-
-    //=================================================================
-
-    private boolean isBillDueSoon () {
-        int rd = databaseHelper.getDate_fromDueDate("reminder_day");
-        if (rd < 0)
-            rd = 1;
-
-        if (calendarHelper.getClosestDueDate() <= rd)
-            return true;
-        else
-            return false;
+        preferences.edit().putBoolean("housemate5_On", true).apply();
+        preferences.edit().putBoolean("housemate4_On", true).apply();
     }
 
     private void handleOverdues(String type) {
@@ -59,19 +46,5 @@ public class NotificationScheduler extends BroadcastReceiver {
         }
         else
             preferences.edit().putBoolean("overdue_" + type, false).apply();
-    }
-
-    private boolean isNotificationOn() {
-        return preferences.getBoolean("settings_notificationOn", true);
-    }
-
-    private void scheduleNotification(Context context, Intent intent) {
-        Intent notificationIntent = new Intent(context, NotificationTask.class);
-        notificationIntent.putExtra(NotificationTask.NOTIFICATION_ID, 1);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime();
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 }

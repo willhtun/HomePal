@@ -3,6 +3,8 @@ package willhtun.homepal;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +44,11 @@ public class SettingsN extends AppCompatActivity {
         startActivity(intent_duedates);
     }
 
+    public void goToActivityBillSharing() {
+        Intent intent_billsharing = new Intent(this, SettingsNBillSharing.class);
+        startActivity(intent_billsharing);
+    }
+
     public void goToActivityHousemates() {
         Intent intent_housemates = new Intent(this, SettingsNHousemates.class);
         startActivity(intent_housemates);
@@ -54,10 +61,11 @@ public class SettingsN extends AppCompatActivity {
         reminderpickerdialog = reminderPicker_Builder.create();
 
         np_reminder = reminder_view.findViewById(R.id.dialog_setRemindDaysPicker);
-        np_reminder.setMaxValue(31); //Set to 28/29 for Feb if exceeds 28
+        np_reminder.setMaxValue(10); //Set to 28/29 for Feb if exceeds 28
         np_reminder.setMinValue(1);
         np_reminder.setValue(remainderDays);
 
+        reminderpickerdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         reminderpickerdialog.show();
     }
 

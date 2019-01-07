@@ -117,9 +117,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public void addData_toHistory(String typ, String mon, int pd, int personNum) {
-    }
-
     public void addData_toHistory(String typ, String mon, int pd, int personNum, float price) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -127,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (!checkIfRowExists(TABLE_NAME_HISTORY, TYPE_MONTH, typ+"_"+mon)) {
             contentValues.put(TYPE_MONTH, typ + "_" + mon);
-            contentValues.put(PAID_DATE, 000000);
+            contentValues.put(PAID_DATE, 0);
             contentValues.put(PAID_AMOUNT, 00.00);
             contentValues.put(PAID_ME, 0);
             contentValues.put(PAID_P1, 0);
@@ -164,6 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 break;
             case 5:
                 db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P5 + " = 1 WHERE " + TYPE_MONTH + " = '" + typ+"_"+mon + "'");
+                break;
             case 9:
                 db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_AMOUNT + " = " + price + " WHERE " + TYPE_MONTH + " = '" + typ+"_"+mon + "'");
                 break;
@@ -217,6 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 break;
             case 5:
                 db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_P5 + " = 1 WHERE " + TYPE_MONTH + " = '" + typmon + "'");
+                break;
             case 9:
                 db.execSQL("UPDATE " + TABLE_NAME_HISTORY + " SET " + PAID_AMOUNT + " = " + price + " WHERE " + TYPE_MONTH + " = '" + typmon + "'");
                 break;
@@ -224,6 +223,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 break;
         }
         db.close();
+    }
+
+    public void deleteData_fromHistory(String type) {
+        String key = type + "%";
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = TYPE_MONTH +" LIKE '" + key + "'";
+
+        db.execSQL("DELETE FROM " + TABLE_NAME_HISTORY + " WHERE " + whereClause);
+
     }
 
     public boolean checkIfRowExists(String table, String row, String key) {
@@ -400,8 +408,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String[] getPaidDate_fromHistory(String typ) {
-        String output[] = new String[] {"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""};
+    public String[][] getPaidDate_fromHistory(String typ) {
+        String output[][] = new String[][] {{"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""},
+                                            {"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""}};
         String key = typ + "%";
         SQLiteDatabase db = this.getReadableDatabase();
         String whereClause = TYPE_MONTH +" LIKE '" + key + "'";
@@ -418,25 +427,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c != null && c.moveToLast()) {
             for (int i = 0; i < 20; i++) {
                 Log.d("YYY", c.getString(1) + " " + String.valueOf(c.getFloat(2)) + " " + String.valueOf(c.getInt(3)));
-                if (c.getInt(3) != 0) {
+                //if (c.getInt(3) != 0) {
                     //output[i] = c.getString(1) + " " + c.getString(0);
-                    output[i] = "\u0009\u0009\u0009\u0009\u0009" + c.getString(1) + " " + getMonthName(extractMonth(c.getString(0))) + " '" + String.valueOf(extractYear(c.getString(0)) % 2000);
-                    if (c.getString(1).length() == 1)
-                        output[i] += "\u0009";
-                    output[i] += "\u0009\u0009\u0009\u0009\u0009" + "$" + c.getFloat(2);
+                    output[0][i] = c.getString(1) + " " + getMonthName(extractMonth(c.getString(0))) + " '" + String.valueOf(extractYear(c.getString(0)) % 2000);
+                    output[1][i] = String.valueOf(c.getFloat(2));
                     String persons_paid_arr = String.valueOf(c.getInt(4)) +
                                             String.valueOf(c.getInt(5)) +
                                             String.valueOf(c.getInt(6)) +
                                             String.valueOf(c.getInt(7)) +
                                             String.valueOf(c.getInt(8));
                     if (!persons_paid_arr.equals("11111"))
-                        output[i] = "u" + c.getString(0) + "+" + persons_paid_arr + "#" + output[i];
+                        output[0][i] = "u" + c.getString(0) + "+" + persons_paid_arr + "#" + output[0][i];
                     else
-                        output[i] = "p" + c.getString(0) + "+" + persons_paid_arr + "#" + output[i];
+                        output[0][i] = "p" + c.getString(0) + "+" + persons_paid_arr + "#" + output[0][i];
                     for (int j = 4; j < c.getColumnNames().length - 5; j++) {
-                        output[i] += " " + c.getString(j) + " ";
+                        output[0][i] += " " + c.getString(j) + " ";
                     }
-                }
+                //}
                 if (!c.moveToPrevious())
                     break;
             }
@@ -445,7 +452,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         else {
             c.close();
-            return new String[] {"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""};
+            return new String[][] {{"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""},
+                                    {"", "", "", "", "", "","", "", "", "", "", "", "", "", "", "","", "", "", ""}};
         }
     }
 
@@ -505,6 +513,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean isDataExists_fromHistory(String typ, String monyr, int Person) {
         String key = typ + "_" + monyr;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String whereClause = TYPE_MONTH+"='" + key + "'";
+
+        Cursor c = db.query(
+                TABLE_NAME_HISTORY, // a. table
+                new String[] {TYPE_MONTH, PAID_ME, PAID_P1, PAID_P2, PAID_P3, PAID_P4, PAID_P5}, // b. column names
+                whereClause, // c. selections
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        if (c != null && c.moveToFirst()) {
+            int data = c.getInt(c.getColumnIndex("paid_person" + Person));
+            c.close();
+            if (data == 1)
+                return true;
+            else
+                return false;
+        }
+        else {
+            c.close();
+            return false;
+        }
+    }
+
+    public boolean isDataExists_fromHistory_typemon(String typ, int Person) {
+        String key = typ;
         SQLiteDatabase db = this.getReadableDatabase();
         String whereClause = TYPE_MONTH+"='" + key + "'";
 

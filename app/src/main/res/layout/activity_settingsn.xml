@@ -23,7 +23,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/rajdhani"
         android:text="Settings"
         android:textColor="@android:color/white"
         android:textSize="25sp"

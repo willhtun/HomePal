@@ -93,6 +93,17 @@
         android:layout_marginBottom="32dp"
         android:layout_marginStart="24dp"
         android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/pastdues_housemate6"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pastdues_housemate6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="24dp"
+        android:text="Overdue"
+        android:textColor="@android:color/holo_red_dark"
         app:layout_constraintBottom_toTopOf="@+id/dialogBtn_setRemindDays"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -145,6 +156,24 @@
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate5"
         app:layout_constraintEnd_toStartOf="@+id/pastdues_button5"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate5" />
+
+    <EditText
+        android:id="@+id/pastdues_pricebox"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="0.00"
+        android:textAlignment="textEnd"
+        android:textColor="#808080"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate6"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_button6"
+        app:layout_constraintStart_toEndOf="@+id/pastdues_housemate6"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate6" />
 
     <ImageButton
         android:id="@+id/pastdues_button1"
@@ -210,6 +239,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pastdues_housemate5" />
+
+    <ImageButton
+        android:id="@+id/pastdues_button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pastdues_paybutton"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_housemate6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_housemate6" />
 
     <Button
         android:id="@+id/dialogBtn_setRemindDays"
@@ -282,5 +324,26 @@
         app:layout_constraintEnd_toEndOf="@+id/pastdues_button5"
         app:layout_constraintStart_toStartOf="@+id/pastdues_button5"
         app:layout_constraintTop_toTopOf="@+id/pastdues_button5" />
+
+    <TextView
+        android:id="@+id/pastdues_button6text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_button6"
+        app:layout_constraintEnd_toEndOf="@+id/pastdues_button6"
+        app:layout_constraintStart_toStartOf="@+id/pastdues_button6"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_button6" />
+
+    <TextView
+        android:id="@+id/pastdues_dollarsign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="$"
+        app:layout_constraintBottom_toBottomOf="@+id/pastdues_pricebox"
+        app:layout_constraintEnd_toStartOf="@+id/pastdues_pricebox"
+        app:layout_constraintTop_toTopOf="@+id/pastdues_pricebox" />
 
 </android.support.constraint.ConstraintLayout>

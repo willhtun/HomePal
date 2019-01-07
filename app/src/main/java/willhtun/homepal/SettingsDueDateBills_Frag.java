@@ -110,20 +110,20 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
             }
         });
 
-        findPreference("settingsdialog_rent").setSummary(((SettingsNDueDates)getActivity()).rentDueDate + " day of each month");
-        findPreference("settingsdialog_car").setSummary(((SettingsNDueDates)getActivity()).carDueDate + " day of each month");
-        findPreference("settingsdialog_internet").setSummary(((SettingsNDueDates)getActivity()).internetDueDate + " day of each month");
-        findPreference("settingsdialog_mobile").setSummary(((SettingsNDueDates)getActivity()).mobileDueDate + " day of each month");
-        findPreference("settingsdialog_electricity").setSummary(((SettingsNDueDates)getActivity()).electricityDueDate + " day of each month");
-        findPreference("settingsdialog_water").setSummary(((SettingsNDueDates)getActivity()).waterDueDate + " day of each month");
-        findPreference("settingsdialog_gas").setSummary(((SettingsNDueDates)getActivity()).gasDueDate + " day of each month");
-        findPreference("settingsdialog_trash").setSummary(((SettingsNDueDates)getActivity()).trashDueDate + " day of each month");
+        findPreference("settingsdialog_rent").setSummary("Day " + ((SettingsNDueDates)getActivity()).rentDueDate + " of each month");
+        findPreference("settingsdialog_car").setSummary("Day " + ((SettingsNDueDates)getActivity()).carDueDate + " of each month");
+        findPreference("settingsdialog_internet").setSummary("Day " + ((SettingsNDueDates)getActivity()).internetDueDate + " of each month");
+        findPreference("settingsdialog_mobile").setSummary("Day " + ((SettingsNDueDates)getActivity()).mobileDueDate + " of each month");
+        findPreference("settingsdialog_electricity").setSummary("Day " + ((SettingsNDueDates)getActivity()).electricityDueDate + " of each month");
+        findPreference("settingsdialog_water").setSummary("Day " + ((SettingsNDueDates)getActivity()).waterDueDate + " of each month");
+        findPreference("settingsdialog_gas").setSummary("Day " + ((SettingsNDueDates)getActivity()).gasDueDate + " of each month");
+        findPreference("settingsdialog_trash").setSummary("Day " + ((SettingsNDueDates)getActivity()).trashDueDate + " of each month");
 
-        findPreference("settingsdialog_custom1").setSummary(((SettingsNDueDates)getActivity()).custom1DueDate + " day of each month");
-        findPreference("settingsdialog_custom2").setSummary(((SettingsNDueDates)getActivity()).custom2DueDate + " day of each month");
-        findPreference("settingsdialog_custom3").setSummary(((SettingsNDueDates)getActivity()).custom3DueDate + " day of each month");
-        findPreference("settingsdialog_custom4").setSummary(((SettingsNDueDates)getActivity()).custom4DueDate + " day of each month");
-        findPreference("settingsdialog_custom5").setSummary(((SettingsNDueDates)getActivity()).custom5DueDate + " day of each month");
+        findPreference("settingsdialog_custom1").setSummary("Day " + ((SettingsNDueDates)getActivity()).custom1DueDate + " of each month");
+        findPreference("settingsdialog_custom2").setSummary("Day " + ((SettingsNDueDates)getActivity()).custom2DueDate + " of each month");
+        findPreference("settingsdialog_custom3").setSummary("Day " + ((SettingsNDueDates)getActivity()).custom3DueDate + " of each month");
+        findPreference("settingsdialog_custom4").setSummary("Day " + ((SettingsNDueDates)getActivity()).custom4DueDate + " of each month");
+        findPreference("settingsdialog_custom5").setSummary("Day " + ((SettingsNDueDates)getActivity()).custom5DueDate + " of each month");
 
         findPreference("settingsdialog_rent").setIconSpaceReserved(false);
         findPreference("settingsdialog_car").setIconSpaceReserved(false);
@@ -146,50 +146,50 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
         boolean empty = true;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        findPreference("settingsdialog_rent").setVisible(false);
-        findPreference("settingsdialog_car").setVisible(false);
-        findPreference("settingsdialog_internet").setVisible(false);
-        findPreference("settingsdialog_mobile").setVisible(false);
-        findPreference("settingsdialog_electricity").setVisible(false);
-        findPreference("settingsdialog_water").setVisible(false);
-        findPreference("settingsdialog_gas").setVisible(false);
-        findPreference("settingsdialog_trash").setVisible(false);
-        findPreference("settingsdialog_custom1").setVisible(false);
-        findPreference("settingsdialog_custom2").setVisible(false);
-        findPreference("settingsdialog_custom3").setVisible(false);
-        findPreference("settingsdialog_custom4").setVisible(false);
-        findPreference("settingsdialog_custom5").setVisible(false);
+        findPreference("settingsdialog_rent").setEnabled(false);
+        findPreference("settingsdialog_car").setEnabled(false);
+        findPreference("settingsdialog_internet").setEnabled(false);
+        findPreference("settingsdialog_mobile").setEnabled(false);
+        findPreference("settingsdialog_electricity").setEnabled(false);
+        findPreference("settingsdialog_water").setEnabled(false);
+        findPreference("settingsdialog_gas").setEnabled(false);
+        findPreference("settingsdialog_trash").setEnabled(false);
+        findPreference("settingsdialog_custom1").setEnabled(false);
+        findPreference("settingsdialog_custom2").setEnabled(false);
+        findPreference("settingsdialog_custom3").setEnabled(false);
+        findPreference("settingsdialog_custom4").setEnabled(false);
+        findPreference("settingsdialog_custom5").setEnabled(false);
 
         if (preferences.getBoolean("check_box_preference_bills_rent", false)) {
-            findPreference("settingsdialog_rent").setVisible(true);
+            findPreference("settingsdialog_rent").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_car", false)) {
-            findPreference("settingsdialog_car").setVisible(true);
+            findPreference("settingsdialog_car").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_internet", false)) {
-            findPreference("settingsdialog_internet").setVisible(true);
+            findPreference("settingsdialog_internet").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_mobile", false)) {
-            findPreference("settingsdialog_mobile").setVisible(true);
+            findPreference("settingsdialog_mobile").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_electricity", false)) {
-            findPreference("settingsdialog_electricity").setVisible(true);
+            findPreference("settingsdialog_electricity").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_water", false)) {
-            findPreference("settingsdialog_water").setVisible(true);
+            findPreference("settingsdialog_water").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_gas", false)) {
-            findPreference("settingsdialog_gas").setVisible(true);
+            findPreference("settingsdialog_gas").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("check_box_preference_bills_trash", false)) {
-            findPreference("settingsdialog_trash").setVisible(true);
+            findPreference("settingsdialog_trash").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("custombill1_On", false)) {
@@ -197,7 +197,7 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
                 findPreference("settingsdialog_custom1").setTitle("Custom 1");
             else
                 findPreference("settingsdialog_custom1").setTitle(preferences.getString("name_preference_bills_custom1", "Custom 1"));
-            findPreference("settingsdialog_custom1").setVisible(true);
+            findPreference("settingsdialog_custom1").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("custombill2_On", false)) {
@@ -205,7 +205,7 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
                 findPreference("settingsdialog_custom2").setTitle("Custom 2");
             else
                 findPreference("settingsdialog_custom2").setTitle(preferences.getString("name_preference_bills_custom2", "Custom 2"));
-            findPreference("settingsdialog_custom2").setVisible(true);
+            findPreference("settingsdialog_custom2").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("custombill3_On", false)) {
@@ -213,7 +213,7 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
                 findPreference("settingsdialog_custom3").setTitle("Custom 3");
             else
                 findPreference("settingsdialog_custom3").setTitle(preferences.getString("name_preference_bills_custom3", "Custom 3"));
-            findPreference("settingsdialog_custom3").setVisible(true);
+            findPreference("settingsdialog_custom3").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("custombill4_On", false)) {
@@ -221,7 +221,7 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
                 findPreference("settingsdialog_custom4").setTitle("Custom 4");
             else
                 findPreference("settingsdialog_custom4").setTitle(preferences.getString("name_preference_bills_custom4", "Custom 4"));
-            findPreference("settingsdialog_custom4").setVisible(true);
+            findPreference("settingsdialog_custom4").setEnabled(true);
             empty = false;
         }
         if (preferences.getBoolean("custombill5_On", false)) {
@@ -230,7 +230,7 @@ public class SettingsDueDateBills_Frag extends PreferenceFragmentCompat {
             else
                 findPreference("settingsdialog_custom5").setTitle(preferences.getString("name_preference_bills_custom5", "Custom 5"));
 
-            findPreference("settingsdialog_custom5").setVisible(true);
+            findPreference("settingsdialog_custom5").setEnabled(true);
             empty = false;
         }
     }

@@ -6,11 +6,11 @@
 
         <Preference
             android:key="settingsopen_otherbills"
-            android:summary="Select which bills to appear on home screen"
-            android:title="Add Bills" />
+            android:summary="Add/remove bills to appear on home screen"
+            android:title="Manage Bills" />
         <Preference
             android:key="settingsopen_duedatebills"
-            android:summary="Set recurring due dates"
+            android:summary="Select recurring due dates for each bill"
             android:title="Edit Due Dates" />
     </PreferenceCategory>
 
@@ -21,20 +21,19 @@
             android:title="Notifications" />
         <Preference
             android:key="settingsopen_reminder"
-            android:summary="Set how many days prior due date to remind"
+            android:summary="Select how many days prior due date to remind"
             android:title="Remind Period" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Bill Sharing">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="settings_billSharingOn"
+        <Preference
+            android:key="settingsopen_billSharing"
             android:title="Bill Sharing"
-            android:summary="Show pay button for housemates"/>
+            android:summary="Select bills shared with housemates"/>
         <Preference
             android:key="settingsopen_housemates"
-            android:summary="Edit whom you are sharing your bills with"
-            android:title="Add Housemates" />
+            android:summary="Add/remove housemates"
+            android:title="Manage Housemates" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="About">

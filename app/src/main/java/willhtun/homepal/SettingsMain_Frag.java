@@ -44,6 +44,14 @@ public class SettingsMain_Frag extends PreferenceFragmentCompat {
             }
         });
 
+        findPreference("settingsopen_billSharing").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((SettingsN) getActivity()).goToActivityBillSharing();
+                return true;
+            }
+        });
+
         findPreference("settingsopen_housemates").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -56,7 +64,7 @@ public class SettingsMain_Frag extends PreferenceFragmentCompat {
         findPreference("settingsopen_duedatebills").setIconSpaceReserved(false);
         findPreference("settings_notificationOn").setIconSpaceReserved(false);
         findPreference("settingsopen_reminder").setIconSpaceReserved(false);
-        findPreference("settings_billSharingOn").setIconSpaceReserved(false);
+        findPreference("settingsopen_billSharing").setIconSpaceReserved(false);
         findPreference("settingsopen_housemates").setIconSpaceReserved(false);
         findPreference("settings_feedback").setIconSpaceReserved(false);
         findPreference("settings_version").setIconSpaceReserved(false);

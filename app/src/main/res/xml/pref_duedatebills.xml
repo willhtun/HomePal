@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Set recurring due dates"
-        android:key="duedate_category">
-
         <Preference
             android:key="settingsdialog_rent"
             android:title="Rent"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_car"
             android:title="Car"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_internet"
             android:title="Internet"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_mobile"
             android:title="Mobile"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_electricity"
             android:title="Electricity"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_water"
             android:title="Water"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_gas"
             android:title="Gas"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_trash"
             android:title="Trash"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_custom1"
             android:title="Custom 1"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_custom2"
             android:title="Custom 2"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_custom3"
             android:title="Custom 3"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_custom4"
             android:title="Custom 4"
-            android:summary="15 day of each month"/>
+            android:summary="Not Added"/>
         <Preference
             android:key="settingsdialog_custom5"
             android:title="Custom 5"
-            android:summary="15 day of each month"/>
-    </PreferenceCategory>
+            android:summary="Not Added"/>
+
 </PreferenceScreen>

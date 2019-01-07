@@ -3,96 +3,99 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Presets">
+        android:title="Bill sharing">
 
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="check_box_preference_bills_rent"
+            android:key="settings_billSharingOn_rent"
             android:title="Rent" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_car"
-            android:title="Car" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_internet"
-            android:title="Internet" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_mobile"
-            android:title="Mobile" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_electricity"
-            android:title="Electricity" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_water"
-            android:title="Water" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_gas"
-            android:title="Gas" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_trash"
-            android:title="Trash" />
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="check_box_preference_bills_groceries"
-            android:title="Groceries" />
-    </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Custom">
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="check_box_preference_bills_custom1"
-            android:title="Custom Bill 1" />
+            android:key="settings_billSharingOn_car"
+            android:title="Car" />
+
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="check_box_preference_bills_custom2"
-            android:title="Custom Bill 2" />
+            android:key="settings_billSharingOn_internet"
+            android:title="Internet" />
+
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="check_box_preference_bills_custom3"
-            android:title="Custom Bill 3" />
+            android:key="settings_billSharingOn_mobile"
+            android:title="Mobile" />
+
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="check_box_preference_bills_custom4"
-            android:title="Custom Bill 4" />
+            android:key="settings_billSharingOn_electricity"
+            android:title="Electricity" />
+
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="check_box_preference_bills_custom5"
-            android:title="Custom Bill 5" />
+            android:key="settings_billSharingOn_water"
+            android:title="Water" />
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_gas"
+            android:title="Gas" />
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_trash"
+            android:title="Trash" />
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_custom1"
+            android:title="Custom 1" />
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_custom2"
+            android:title="Custom 2" />
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_custom3"
+            android:title="Custom 3" />
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_custom4"
+            android:title="Custom 4" />
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="settings_billSharingOn_custom5"
+            android:title="Custom 5" />
+
+
     </PreferenceCategory>
 
 </PreferenceScreen>

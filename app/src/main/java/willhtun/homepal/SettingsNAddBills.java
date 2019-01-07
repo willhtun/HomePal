@@ -11,9 +11,4 @@ public class SettingsNAddBills extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_n_add_bills);
     }
-
-    public void goToActivityCustomBills() {
-        Intent intent_opencustombills = new Intent(this, SettingsNCustomBills.class);
-        startActivity(intent_opencustombills);
-    }
 }

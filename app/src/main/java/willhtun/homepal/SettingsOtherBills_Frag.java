@@ -1,32 +1,32 @@
 package willhtun.homepal;
 
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import static android.support.v4.content.ContextCompat.getSystemService;
+
 public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
 
     private SharedPreferences prefs;
+    private DatabaseHelper mDatabaseHelper;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState,
                                     String rootKey) {
         setPreferencesFromResource(R.xml.pref_otherbills, rootKey);
-
-        findPreference("settings_open_custombills").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                ((SettingsNAddBills) getActivity()).goToActivityCustomBills();
-                return true;
-            }
-        });
 
         findPreference("check_box_preference_bills_rent").setIconSpaceReserved(false);
         findPreference("check_box_preference_bills_car").setIconSpaceReserved(false);
@@ -38,52 +38,159 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
         findPreference("check_box_preference_bills_trash").setIconSpaceReserved(false);
         findPreference("check_box_preference_bills_groceries").setIconSpaceReserved(false);
 
-        /*
-        findPreference("check_box_preference_bills_custom1").setIconSpaceReserved(false);
-        findPreference("check_box_preference_bills_custom2").setIconSpaceReserved(false);
-        findPreference("check_box_preference_bills_custom3").setIconSpaceReserved(false);
-        findPreference("check_box_preference_bills_custom4").setIconSpaceReserved(false);
-        findPreference("check_box_preference_bills_custom5").setIconSpaceReserved(false);
-
-        findPreference("name_preference_bills_custom1").setIconSpaceReserved(false);
-        findPreference("name_preference_bills_custom2").setIconSpaceReserved(false);
-        findPreference("name_preference_bills_custom3").setIconSpaceReserved(false);
-        findPreference("name_preference_bills_custom4").setIconSpaceReserved(false);
-        findPreference("name_preference_bills_custom5").setIconSpaceReserved(false);
-*/
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mDatabaseHelper = new DatabaseHelper(getActivity());
 
-        prefs.registerOnSharedPreferenceChangeListener(listener);
+        create_deleteConfirmation("rent");
+        create_deleteConfirmation("car");
+        create_deleteConfirmation("internet");
+        create_deleteConfirmation("mobile");
+        create_deleteConfirmation("electricity");
+        create_deleteConfirmation("water");
+        create_deleteConfirmation("gas");
+        create_deleteConfirmation("trash");
+        create_deleteConfirmation("groceries");
 
-        // refreshNames();
+        create_deleteConfirmation_custom("custom1");
+        create_deleteConfirmation_custom("custom2");
+        create_deleteConfirmation_custom("custom3");
+        create_deleteConfirmation_custom("custom4");
+        create_deleteConfirmation_custom("custom5");
 
-    }
-
-
-    SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-           // refreshNames();
+        for (int z = 1; z < 6; z++) {
+            if (prefs.getString("name_preference_bills_custom" + z, "").equals(""))
+                findPreference("check_box_preference_bills_custom" + z).setTitle("Custom Bill " + z);
+            else
+                findPreference("check_box_preference_bills_custom" + z).setTitle(prefs.getString("name_preference_bills_custom" + z, "Custom Bill " + z));
         }
-    };
-
-    private void refreshNames() {
-        findPreference("check_box_preference_bills_custom1").setTitle(prefs.getString("name_preference_bills_custom1", "Custom 1"));
-        findPreference("check_box_preference_bills_custom2").setTitle(prefs.getString("name_preference_bills_custom2", "Custom 2"));
-        findPreference("check_box_preference_bills_custom3").setTitle(prefs.getString("name_preference_bills_custom3", "Custom 3"));
-        findPreference("check_box_preference_bills_custom4").setTitle(prefs.getString("name_preference_bills_custom4", "Custom 4"));
-        findPreference("check_box_preference_bills_custom5").setTitle(prefs.getString("name_preference_bills_custom5", "Custom 5"));
-
-        if (prefs.getString("name_preference_bills_custom1", "Custom 1").equals(""))
-            findPreference("check_box_preference_bills_custom1").setTitle("Custom 1");
-        if (prefs.getString("name_preference_bills_custom2", "Custom 2").equals(""))
-            findPreference("check_box_preference_bills_custom2").setTitle("Custom 2");
-        if (prefs.getString("name_preference_bills_custom3", "Custom 3").equals(""))
-            findPreference("check_box_preference_bills_custom3").setTitle("Custom 3");
-        if (prefs.getString("name_preference_bills_custom4", "Custom 4").equals(""))
-            findPreference("check_box_preference_bills_custom4").setTitle("Custom 4");
-        if (prefs.getString("name_preference_bills_custom5", "Custom 5").equals(""))
-            findPreference("check_box_preference_bills_custom5").setTitle("Custom 5");
     }
 
+    private void create_deleteConfirmation(final String type) {
+        final Preference myPref = (Preference) findPreference("check_box_preference_bills_" + type);
+        if (myPref != null) {
+            myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(final Preference preference, Object newValue) {
+                    if (newValue instanceof Boolean && ((Boolean) newValue) != prefs.getBoolean("myPref", true)) {
+                        final boolean isEnabled = (Boolean) newValue;
+                        if (!isEnabled) {
+                            android.support.v7.app.AlertDialog.Builder pricePicker_Builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                            View pricePicker_view = getLayoutInflater().inflate(R.layout.dialog_otherbills_deleteconfirm, null);
+                            pricePicker_Builder.setView(pricePicker_view);
+                            final android.support.v7.app.AlertDialog pricepickerdialog = pricePicker_Builder.create();
+
+                            (pricePicker_view.findViewById(R.id.deleteconfirm_button)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    prefs.edit().putBoolean("check_box_preference_bills_" + type, false).commit();
+                                    ((android.support.v14.preference.SwitchPreference) findPreference("check_box_preference_bills_" + type)).setChecked(false);
+                                    mDatabaseHelper.deleteData_fromHistory(type);
+                                    prefs.edit().putBoolean("settings_billSharingOn_" + type, false).apply();
+                                    pricepickerdialog.dismiss();
+                                }
+                            });
+
+                            (pricePicker_view.findViewById(R.id.deletecancel_button)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    pricepickerdialog.dismiss();
+                                }
+                            });
+
+                            pricepickerdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            pricepickerdialog.show();
+
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void create_deleteConfirmation_custom(final String type) {
+        final Preference myPref = (Preference) findPreference("check_box_preference_bills_" + type);
+        if (myPref != null) {
+            myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(final Preference preference, Object newValue) {
+                    if (newValue instanceof Boolean && ((Boolean) newValue) != prefs.getBoolean("myPref", true)) {
+                        final boolean isEnabled = (Boolean) newValue;
+                        if (!isEnabled) {
+                            android.support.v7.app.AlertDialog.Builder pricePicker_Builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                            View pricePicker_view = getLayoutInflater().inflate(R.layout.dialog_otherbills_deleteconfirm, null);
+                            pricePicker_Builder.setView(pricePicker_view);
+                            final android.support.v7.app.AlertDialog pricepickerdialog = pricePicker_Builder.create();
+
+                            (pricePicker_view.findViewById(R.id.deleteconfirm_button)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    prefs.edit().putBoolean("check_box_preference_bills_" + type, false).apply();
+                                    ((android.support.v14.preference.SwitchPreference) findPreference("check_box_preference_bills_" + type)).setChecked(false);
+
+                                    String name = "";
+                                    findPreference("check_box_preference_bills_" + type).setTitle("Custom Bill " + type.substring(6,7));
+                                    prefs.edit().putBoolean(type.substring(0,6) + "bill" + type.substring(6,7) + "_On", false).apply();
+                                    prefs.edit().putBoolean("settings_billSharingOn_" + type, false).apply();
+                                    prefs.edit().putString("name_preference_bills_" + type, name).apply();
+
+                                    mDatabaseHelper.deleteData_fromHistory(type);
+                                    pricepickerdialog.dismiss();
+                                }
+                            });
+
+                            (pricePicker_view.findViewById(R.id.deletecancel_button)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    pricepickerdialog.dismiss();
+                                }
+                            });
+
+                            pricepickerdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            pricepickerdialog.show();
+
+                            return false;
+                        }
+                    }
+                    else {
+                        final android.support.v7.app.AlertDialog.Builder pricePicker_Builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                        final View pricePicker_view = getLayoutInflater().inflate(R.layout.dialog_custombillnamer, null);
+                        pricePicker_Builder.setView(pricePicker_view);
+                        final android.support.v7.app.AlertDialog pricepickerdialog = pricePicker_Builder.create();
+                        final EditText et_namebox = ((EditText) pricePicker_view.findViewById(R.id.dialog_customname));
+
+                        (pricePicker_view.findViewById(R.id.dialogBtn_customname)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((android.support.v14.preference.SwitchPreference) findPreference("check_box_preference_bills_" + type)).setChecked(true);
+                                String name = et_namebox.getText().toString();
+                                findPreference("check_box_preference_bills_" + type).setTitle(name);
+                                prefs.edit().putBoolean(type.substring(0,6) + "bill" + type.substring(6,7) + "_On", true).apply();
+                                prefs.edit().putString("name_preference_bills_" + type, name).apply();
+                                pricepickerdialog.dismiss();
+                            }
+                        });
+
+                        pricepickerdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        pricepickerdialog.show();
+
+                        // Auto show keyboard
+                        et_namebox.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager keyboard = (InputMethodManager)
+                                        getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                                keyboard.showSoftInput(et_namebox, 0);
+                            }
+                        },200);
+
+                        return false;
+                    }
+                    return true;
+                }
+            });
+        }
+    }
 
 }

@@ -1,6 +1,8 @@
 package willhtun.homepal;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,31 +50,31 @@ public class SettingsNDueDates extends AppCompatActivity {
         mDatabaseHelper = new DatabaseHelper(getApplicationContext());
 
         rentDueDate = mDatabaseHelper.getDate_fromDueDate("rent");
-        if (rentDueDate < 0) rentDueDate = 99;
+        if (rentDueDate < 0) rentDueDate = 1;
         carDueDate = mDatabaseHelper.getDate_fromDueDate("car");
-        if (carDueDate < 0) carDueDate = 99;
+        if (carDueDate < 0) carDueDate = 1;
         internetDueDate = mDatabaseHelper.getDate_fromDueDate("internet");
-        if (internetDueDate < 0) internetDueDate = 99;
+        if (internetDueDate < 0) internetDueDate = 1;
         mobileDueDate = mDatabaseHelper.getDate_fromDueDate("mobile");
-        if (mobileDueDate < 0) mobileDueDate = 99;
+        if (mobileDueDate < 0) mobileDueDate = 1;
         electricityDueDate = mDatabaseHelper.getDate_fromDueDate("electricity");
-        if (electricityDueDate < 0) electricityDueDate = 99;
+        if (electricityDueDate < 0) electricityDueDate = 1;
         waterDueDate = mDatabaseHelper.getDate_fromDueDate("water");
-        if (waterDueDate < 0) waterDueDate = 99;
+        if (waterDueDate < 0) waterDueDate = 1;
         gasDueDate = mDatabaseHelper.getDate_fromDueDate("gas");
-        if (gasDueDate < 0) gasDueDate = 99;
+        if (gasDueDate < 0) gasDueDate = 1;
         trashDueDate = mDatabaseHelper.getDate_fromDueDate("trash");
-        if (trashDueDate < 0) trashDueDate = 99;
+        if (trashDueDate < 0) trashDueDate = 1;
         custom1DueDate = mDatabaseHelper.getDate_fromDueDate("custom1");
-        if (custom1DueDate < 0) custom1DueDate = 99;
+        if (custom1DueDate < 0) custom1DueDate = 1;
         custom2DueDate = mDatabaseHelper.getDate_fromDueDate("custom2");
-        if (custom2DueDate < 0) custom2DueDate = 99;
+        if (custom2DueDate < 0) custom2DueDate = 1;
         custom3DueDate = mDatabaseHelper.getDate_fromDueDate("custom3");
-        if (custom3DueDate < 0) custom3DueDate = 99;
+        if (custom3DueDate < 0) custom3DueDate = 1;
         custom4DueDate = mDatabaseHelper.getDate_fromDueDate("custom4");
-        if (custom4DueDate < 0) custom4DueDate = 99;
+        if (custom4DueDate < 0) custom4DueDate = 1;
         custom5DueDate = mDatabaseHelper.getDate_fromDueDate("custom5");
-        if (custom5DueDate < 0) custom5DueDate = 99;
+        if (custom5DueDate < 0) custom5DueDate = 1;
 
         setContentView(R.layout.activity_settings_n_due_dates);
     }
@@ -148,7 +150,7 @@ public class SettingsNDueDates extends AppCompatActivity {
         });
 
         np_datePicker_day = datepicker_view.findViewById(R.id.dialog_datePicker_day);
-        np_datePicker_day.setMaxValue(31);
+        np_datePicker_day.setMaxValue(28);
         np_datePicker_day.setMinValue(1);
 
         if (rentFlag == 1) {
@@ -190,6 +192,7 @@ public class SettingsNDueDates extends AppCompatActivity {
         else if (custom5Flag == 1) {
             np_datePicker_day.setValue(custom5DueDate);
         }
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.show();
     }
 

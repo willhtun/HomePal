@@ -25,6 +25,7 @@ public class Home extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
     CalendarHelper mCalendarHelper;
+    SharedPreferences preferences;
 
     int rentDaysLeftUntil = 1;
     int carDaysLeftUntil = 1;
@@ -46,12 +47,14 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mDatabaseHelper = new DatabaseHelper(this);
         mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         loadDueDates();
         loadPaidHistory();
         loadVisibility();
 
         setAlarm();
+        setMidnightTask();
     }
 
     @Override
@@ -170,7 +173,12 @@ public class Home extends AppCompatActivity {
         ((TextView) findViewById(R.id.custom5_diamondText)).setText(String.valueOf(custom5DaysLeftUntil));
 
 
-        if (rentDaysLeftUntil <= 3) {
+        if (preferences.getBoolean("overdue_rent", false)) {
+            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
+            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
+            ((TextView) findViewById(R.id.rent_diamondText)).setText("!");
+        }
+        else if (rentDaysLeftUntil <= 3) {
             ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_reddiamond);
             ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#DA4A50"));
         }
@@ -377,7 +385,6 @@ public class Home extends AppCompatActivity {
 
     public void loadVisibility() {
         boolean empty = true;
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         findViewById(R.id.constraint_info).setVisibility(View.GONE);
         findViewById(R.id.constraint_rent).setVisibility(View.GONE);
@@ -473,7 +480,6 @@ public class Home extends AppCompatActivity {
     }
 
     public void setAlarm() {
-        // Quote in Morning at 08:32:00 AM
         Calendar calendar = Calendar.getInstance();
 
         calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -488,7 +494,30 @@ public class Home extends AppCompatActivity {
         }
 
         Intent myIntent = new Intent(this, NotificationScheduler.class);
-        int ALARM1_ID = 10000;
+        int ALARM1_ID = 24971;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this, ALARM1_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+    }
+
+    public void setMidnightTask() {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 5);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar cur = Calendar.getInstance();
+
+        if (cur.after(calendar)) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        Intent myIntent = new Intent(this, NotificationScheduler_Midnight.class);
+        int ALARM1_ID = 24972;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this, ALARM1_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);

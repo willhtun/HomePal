@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsNDueDates">
+    tools:context=".SettingsNBillSharing">
 
     <ImageView
         android:id="@+id/settings_banner"
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/settings_window"
-        android:name="willhtun.homepal.SettingsDueDateBills_Frag"
+        android:name="willhtun.homepal.SettingsBillSharing_Frag"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

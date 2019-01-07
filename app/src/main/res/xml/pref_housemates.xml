@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <PreferenceCategory
-            android:title="Add housemates">
+<PreferenceCategory
+    android:title="Presets">
 
-            <EditTextPreference
-                android:key="name_preference_housemates1"
-                android:summary=""
-                android:title="Tap to add housemate" />
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:key="check_box_preference_housemate1"
+        android:title="Housemate 1" />
 
-            <EditTextPreference
-                android:key="name_preference_housemates2"
-                android:summary=""
-                android:title="Tap to add housemate" />
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:key="check_box_preference_housemate2"
+        android:title="Housemate 2" />
 
-            <EditTextPreference
-                android:key="name_preference_housemates3"
-                android:summary=""
-                android:title="Tap to add housemate" />
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:key="check_box_preference_housemate3"
+        android:title="Housemate 3" />
 
-            <EditTextPreference
-                android:key="name_preference_housemates4"
-                android:summary=""
-                android:title="Tap to add housemate" />
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:key="check_box_preference_housemate4"
+        android:title="Housemate 4" />
 
-            <EditTextPreference
-                android:key="name_preference_housemates5"
-                android:summary=""
-                android:title="Tap to add housemate" />
-        </PreferenceCategory>
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:key="check_box_preference_housemate5"
+        android:title="Housemate 5" />
+
+</PreferenceCategory>
+
 </PreferenceScreen>
