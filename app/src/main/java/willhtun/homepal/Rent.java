@@ -46,6 +46,7 @@ public class Rent extends AppCompatActivity {
     EditText et_pricebox;
     AlertDialog pricepickerdialog;
     AlertDialog pastduesdialog;
+    View pastDues_view;
 
     ImageView rent_p0_btn;
     ImageView rent_p1_btn;
@@ -58,8 +59,8 @@ public class Rent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mDatabaseHelper = new DatabaseHelper(getApplicationContext());
         mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
 
@@ -117,6 +118,14 @@ public class Rent extends AppCompatActivity {
         loadHistory();
     }
 
+    public void rent_personX_pay(int personNum, ImageView rent_pX_button, int rent_buttontextID) { //R.id.rent_person1_text
+        mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), personNum, personNum, price);
+        rent_pX_button.setImageResource(R.drawable.generic_personpaidbutton);
+        ((TextView) findViewById(rent_buttontextID)).setTextColor(Color.WHITE);
+        loadHistory();
+    }
+
+    /*
     public void rent_person1_pay() {
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), 111, 1, price);
         rent_p1_btn.setImageResource(R.drawable.generic_personpaidbutton);
@@ -151,8 +160,18 @@ public class Rent extends AppCompatActivity {
         ((TextView) findViewById(R.id.rent_person5_text)).setTextColor(Color.WHITE);
         loadHistory();
     }
+    */
 
     public void loadHousemates() {
+        int text[] = {R.id.rent_person1_text, R.id.rent_person2_text, R.id.rent_person3_text, R.id.rent_person4_text, R.id.rent_person5_text};
+        for (int i = 1; i < 6; i++) {
+            String name = preferences.getString("name_preference_housemates" + i, "--");
+            if (name.equals("")) name = "--";
+            if (name.length() > 2) name = name.substring(0,2);
+            ((TextView) findViewById(text[i-1])).setText(name);
+        }
+
+        /*
         String name1 = preferences.getString("name_preference_housemates1", "--");
         if (name1.equals("")) name1 = "--";
         if (name1.length() > 2) name1 = name1.substring(0,2);
@@ -169,11 +188,12 @@ public class Rent extends AppCompatActivity {
         if (name5.equals("")) name5 = "--";
         if (name5.length() > 2) name5 = name5.substring(0,2);
 
-        ((TextView) findViewById(R.id.rent_person1_text)).setText(name1);
+        ((TextView) findViewById(R.id.rent_person2_text)).setText(name1);
         ((TextView) findViewById(R.id.rent_person2_text)).setText(name2);
         ((TextView) findViewById(R.id.rent_person3_text)).setText(name3);
         ((TextView) findViewById(R.id.rent_person4_text)).setText(name4);
         ((TextView) findViewById(R.id.rent_person5_text)).setText(name5);
+        */
     }
 
     public void loadButtons() {
@@ -199,6 +219,36 @@ public class Rent extends AppCompatActivity {
         }
 
         if (preferences.getBoolean("settings_billSharingOn_rent", false)) {
+            final int text[] = {R.id.rent_person1_text, R.id.rent_person2_text, R.id.rent_person3_text, R.id.rent_person4_text, R.id.rent_person5_text};
+            final ImageView button [] = {rent_p1_btn, rent_p2_btn, rent_p3_btn, rent_p4_btn, rent_p5_btn};
+
+            for (int i = 1;i < 6; i++) {
+                if (!preferences.getBoolean("housemate" + i + "_On", false)) {
+                    button[i-1].setImageResource(R.drawable.generic_personunavailable);
+                    ((TextView) findViewById(text[i-1])).setText("");
+                }
+                else if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type), i)) {
+                    button[i-1].setImageResource(R.drawable.generic_personpaidbutton);
+                    ((TextView) findViewById(text[i-1])).setTextColor(Color.WHITE);
+                }
+                else {
+                    button[i-1].setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "Press and hold to pay", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    final int person_nump_temp = i;
+                    button[i-1].setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            rent_personX_pay(person_nump_temp, button[person_nump_temp-1], text[person_nump_temp-1]);
+                            return true;
+                        }
+                    });
+                }
+            }
+
+            /*
             if (!preferences.getBoolean("housemate1_On", false)) {
                 rent_p1_btn.setImageResource(R.drawable.generic_personunavailable);
                 ((TextView) findViewById(R.id.rent_person1_text)).setText("");
@@ -216,7 +266,7 @@ public class Rent extends AppCompatActivity {
                 rent_p1_btn.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        rent_person1_pay();
+                        rent_personX_pay(1, rent_p1_btn, R.id.rent_person1_text);
                         return true;
                     }
                 });
@@ -238,7 +288,7 @@ public class Rent extends AppCompatActivity {
                 rent_p2_btn.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        rent_person2_pay();
+                        rent_personX_pay(2, rent_p2_btn, R.id.rent_person2_text);
                         return true;
                     }
                 });
@@ -260,7 +310,7 @@ public class Rent extends AppCompatActivity {
                 rent_p3_btn.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        rent_person3_pay();
+                        rent_personX_pay(3, rent_p3_btn, R.id.rent_person3_text);
                         return true;
                     }
                 });
@@ -282,7 +332,7 @@ public class Rent extends AppCompatActivity {
                 rent_p4_btn.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        rent_person4_pay();
+                        rent_personX_pay(4, rent_p4_btn, R.id.rent_person4_text);
                         return true;
                     }
                 });
@@ -304,11 +354,12 @@ public class Rent extends AppCompatActivity {
                 rent_p5_btn.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        rent_person5_pay();
+                        rent_personX_pay(5, rent_p5_btn, R.id.rent_person5_text);
                         return true;
                     }
                 });
             }
+            */
         }
         else {
             findViewById(R.id.rent_payButtonsContainer).setVisibility(View.GONE);
@@ -316,19 +367,22 @@ public class Rent extends AppCompatActivity {
     }
 
     public void loadHistory() {
-        LinearLayout ll = findViewById(R.id.rent_history);
-        ll.removeAllViews();
+        LinearLayout vertical_ll = findViewById(R.id.rent_history);
         String[][] text_raw = mDatabaseHelper.getPaidDate_fromHistory(type);
 
+        vertical_ll.removeAllViews();
         preferences.edit().putBoolean("overdue_rent", false).apply();
 
         for (int i = 0; i < 20; i++) {
-            LinearLayout rl = new LinearLayout(this);
+            LinearLayout entry_ll = new LinearLayout(this);
             TextView textDate = new TextView(this);
             TextView textPrice = new TextView(this);
             ImageButton duesButton = new ImageButton(this);
+
+            // Date and Price from DB
             String text = text_raw[0][i];
             final String history_price = text_raw[1][i];
+
             String type_period;
             String format_period = "";
             String personsPaidStats;
@@ -400,13 +454,18 @@ public class Rent extends AppCompatActivity {
                     ii++;
                 format_period = text.substring(ii + 1, text.length());
 
+                final int [] pd_housemate = {R.id.pastdues_housemate1, R.id.pastdues_housemate2, R.id.pastdues_housemate3, R.id.pastdues_housemate4, R.id.pastdues_housemate5 };
+                final int [] pd_amount = {R.id.pastdues_amount1, R.id.pastdues_amount2, R.id.pastdues_amount3, R.id.pastdues_amount4, R.id.pastdues_amount5};
+                final int [] pd_buttontext = {R.id.pastdues_button1text, R.id.pastdues_button2text, R.id.pastdues_button3text, R.id.pastdues_button4text, R.id.pastdues_button5text};
+                final int [] pd_button = {R.id.pastdues_button1, R.id.pastdues_button2, R.id.pastdues_button3, R.id.pastdues_button4, R.id.pastdues_button5};
+
                 if (overdue_exist) {
                     preferences.edit().putBoolean("overdue_rent", true).apply();
                     duesButton.setOnClickListener(new ArgsOnClickListener(this, history_price, type_period, format_period, personsPaidStats) {
                         @Override
                         public void onClick(View v) {
                             final AlertDialog.Builder pastDues_builder = new AlertDialog.Builder(Rent.this);
-                            final View pastDues_view = getLayoutInflater().inflate(R.layout.dialog_pastdues_overdue, null);
+                            pastDues_view = getLayoutInflater().inflate(R.layout.dialog_pastdues_overdue, null);
                             int num_housemates = 0;
                             final String housemate_price;
                             pastDues_builder.setView(pastDues_view);
@@ -443,8 +502,12 @@ public class Rent extends AppCompatActivity {
                             }
                             housemate_price = String.valueOf(Float.parseFloat(historyprice) / num_housemates);
 
-                            Log.d("YIKESSS", history_price + "__" + historyprice);
+                            for (int housematesID = 1; housematesID < 6; housematesID++) {
+                                duesdialog_prepVisibility(housematesID, housemates_names[housematesID-1], housemate_price, period,
+                                        pd_housemate[housematesID-1], pd_amount[housematesID-1], pd_buttontext[housematesID-1], pd_button[housematesID-1]);
+                            }
 
+                            /*
                             if (persons[0] == 1 || housemates_names[0].equals("--")) {
                                 ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate1)).setVisibility(View.GONE);
                                 ((TextView) pastDues_view.findViewById(R.id.pastdues_amount1)).setVisibility(View.GONE);
@@ -535,12 +598,10 @@ public class Rent extends AppCompatActivity {
                                     }
                                 });
                             }
+                            */
 
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate1)).setText(housemates_names[0]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate2)).setText(housemates_names[1]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate3)).setText(housemates_names[2]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate4)).setText(housemates_names[3]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate5)).setText(housemates_names[4]);
+                            for (int g = 0; g < 5; g++)
+                                ((TextView) pastDues_view.findViewById(pd_housemate[g])).setText(housemates_names[g]);
 
                             pastduesdialog.show();
                         }
@@ -573,6 +634,12 @@ public class Rent extends AppCompatActivity {
                             }
                             housemate_price = String.valueOf(Float.parseFloat(historyprice) / num_housemates);
 
+                            for (int housematesID = 1; housematesID < 6; housematesID++) {
+                                duesdialog_prepVisibility(housematesID, housemates_names[housematesID-1], housemate_price, period,
+                                        pd_housemate[housematesID-1], pd_amount[housematesID-1], pd_buttontext[housematesID-1], pd_button[housematesID-1]);
+                            }
+
+                            /*
                             if (persons[0] == 1 || housemates_names[0].equals("--")) {
                                 ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate1)).setVisibility(View.GONE);
                                 ((TextView) pastDues_view.findViewById(R.id.pastdues_amount1)).setVisibility(View.GONE);
@@ -663,12 +730,10 @@ public class Rent extends AppCompatActivity {
                                     }
                                 });
                             }
+                            */
 
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate1)).setText(housemates_names[0]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate2)).setText(housemates_names[1]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate3)).setText(housemates_names[2]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate4)).setText(housemates_names[3]);
-                            ((TextView) pastDues_view.findViewById(R.id.pastdues_housemate5)).setText(housemates_names[4]);
+                            for (int g = 0; g < 5; g++)
+                                ((TextView) pastDues_view.findViewById(pd_housemate[g])).setText(housemates_names[g]);
 
                             pastduesdialog.show();
                         }
@@ -687,12 +752,12 @@ public class Rent extends AppCompatActivity {
                 LinearLayout.LayoutParams params_rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) dipToPix(30f));
                 params_rl.setMargins(30,30,30,30);
                 params_rl.setLayoutDirection(LinearLayout.HORIZONTAL);
-                rl.setLayoutParams(params_rl);
-                
-                rl.addView(textDate);
-                rl.addView(textPrice);
-                rl.addView(duesButton);
-                ll.addView(rl);
+                entry_ll.setLayoutParams(params_rl);
+
+                entry_ll.addView(textDate);
+                entry_ll.addView(textPrice);
+                entry_ll.addView(duesButton);
+                vertical_ll.addView(entry_ll);
             }
         }
     }
@@ -741,5 +806,28 @@ public class Rent extends AppCompatActivity {
                 r.getDisplayMetrics()
         );
         return px;
+    }
+
+    private void duesdialog_prepVisibility(final int person_num, String person_name, String housemate_price, String per,
+                                           int pastdues_housemateX, int pastdues_amountX, final int pastdues_buttonXtext, final int pastdues_buttonX) {
+        if (person_num == 1 || person_name.equals("--")) {
+            ((TextView) pastDues_view.findViewById(pastdues_housemateX)).setVisibility(View.GONE);
+            ((TextView) pastDues_view.findViewById(pastdues_amountX)).setVisibility(View.GONE);
+            ((TextView) pastDues_view.findViewById(pastdues_buttonXtext)).setVisibility(View.GONE);
+            ((ImageButton) pastDues_view.findViewById(pastdues_buttonX)).setVisibility(View.GONE);
+        } else {
+            final String period = per;
+            ((TextView) pastDues_view.findViewById(pastdues_amountX)).setText(housemate_price);
+            ((ImageButton) pastDues_view.findViewById(pastdues_buttonX)).setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mDatabaseHelper.addData_toHistory_typemon(period, 99, person_num, price);
+                    ((ImageButton) pastDues_view.findViewById(pastdues_buttonX)).setImageResource(R.drawable.ic_pastdues_paidbutton);
+                    ((TextView) pastDues_view.findViewById(pastdues_buttonXtext)).setTextColor(Color.WHITE);
+                    ((TextView) pastDues_view.findViewById(pastdues_buttonXtext)).setText("PAID");
+                    return true;
+                }
+            });
+        }
     }
 }

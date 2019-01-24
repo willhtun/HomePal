@@ -13,9 +13,7 @@ public class WakeUpAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("RESTART", "RESTART");
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-
             Calendar calendar = Calendar.getInstance();
 
             calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -29,9 +27,8 @@ public class WakeUpAlarmReceiver extends BroadcastReceiver {
                 calendar.add(Calendar.DATE, 1);
             }
 
-            Log.d("RESTART", "Next alarm " + calendar.getTime() + " " +calendar.getTimeInMillis());
             Intent myIntent = new Intent(context, NotificationScheduler.class);
-            int ALARM1_ID = 10000;
+            int ALARM1_ID = 24971;
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     context, ALARM1_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

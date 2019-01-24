@@ -54,7 +54,6 @@ public class Home extends AppCompatActivity {
         loadVisibility();
 
         setAlarm();
-        setMidnightTask();
     }
 
     @Override
@@ -495,29 +494,6 @@ public class Home extends AppCompatActivity {
 
         Intent myIntent = new Intent(this, NotificationScheduler.class);
         int ALARM1_ID = 24971;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this, ALARM1_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
-    }
-
-    public void setMidnightTask() {
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.HOUR_OF_DAY, 5);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        Calendar cur = Calendar.getInstance();
-
-        if (cur.after(calendar)) {
-            calendar.add(Calendar.DATE, 1);
-        }
-
-        Intent myIntent = new Intent(this, NotificationScheduler_Midnight.class);
-        int ALARM1_ID = 24972;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this, ALARM1_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);

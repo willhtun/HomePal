@@ -539,6 +539,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean isEntryExists_fromHistory(String typ, String monyr) {
+        String key = typ + "_" + monyr;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String whereClause = TYPE_MONTH+"='" + key + "'";
+
+        Cursor c = db.query(
+                TABLE_NAME_HISTORY, // a. table
+                new String[] {TYPE_MONTH}, // b. column names
+                whereClause, // c. selections
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        if (c != null && c.moveToFirst()) {
+            c.close();
+            return true;
+        }
+        else {
+            c.close();
+            return false;
+        }
+    }
+
     public boolean isDataExists_fromHistory_typemon(String typ, int Person) {
         String key = typ;
         SQLiteDatabase db = this.getReadableDatabase();

@@ -22,6 +22,7 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
 
     private SharedPreferences prefs;
     private DatabaseHelper mDatabaseHelper;
+    private CalendarHelper mCalendarHelper;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState,
@@ -40,6 +41,7 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mDatabaseHelper = new DatabaseHelper(getActivity());
+        mCalendarHelper = new CalendarHelper(mDatabaseHelper, getActivity());
 
         create_deleteConfirmation("rent");
         create_deleteConfirmation("car");
@@ -102,6 +104,10 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
 
                             return false;
                         }
+                    }
+                    else {
+                        prepTable_empty(type);
+                        return false;
                     }
                     return true;
                 }
@@ -190,6 +196,15 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
                     return true;
                 }
             });
+        }
+    }
+
+    private void prepTable_empty(String type) {    // Adds empty rent_10_18 0 0 0 0 0 0 line
+        int mon = mCalendarHelper.getCycleMonth(type);
+        int yr = mCalendarHelper.getCycleYear(type);
+        String monyr = String.valueOf(mon) + "_" + String.valueOf(yr);
+        if (!mDatabaseHelper.isEntryExists_fromHistory(type, monyr)) {
+            mDatabaseHelper.addData_toHistory(type, monyr, mCalendarHelper.getTodayDate(), 8, 0);
         }
     }
 

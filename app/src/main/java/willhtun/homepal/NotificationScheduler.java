@@ -26,7 +26,16 @@ public class NotificationScheduler extends BroadcastReceiver {
         if (isBillDueSoon() && isNotificationOn())
             scheduleNotification(context, intent);
 
+        prepTable_empty("rent");
+        prepTable_empty("car");
+        prepTable_empty("internet");
+        prepTable_empty("mobile");
+
         handleOverdues("rent");
+        handleOverdues("car");
+        handleOverdues("internet");
+        handleOverdues("mobile");
+
     }
 
     //=================================================================
@@ -42,6 +51,15 @@ public class NotificationScheduler extends BroadcastReceiver {
             return false;
     }
 
+    private void prepTable_empty(String type) {    // Adds empty rent_10_18 0 0 0 0 0 0 line
+        int mon = calendarHelper.getCycleMonth(type);
+        int yr = calendarHelper.getCycleYear(type);
+        String monyr = String.valueOf(mon) + "_" + String.valueOf(yr);
+        if (!databaseHelper.isEntryExists_fromHistory(type, monyr)) {
+            databaseHelper.addData_toHistory(type, monyr, calendarHelper.getTodayDate(), 8, 0);
+        }
+    }
+
     private void handleOverdues(String type) {
         int mon = calendarHelper.getCycleMonth(type);
         int yr = calendarHelper.getCycleYear(type);
@@ -54,7 +72,6 @@ public class NotificationScheduler extends BroadcastReceiver {
         }
         String monyr = String.valueOf(mon) + "_" + String.valueOf(yr);
         if (!databaseHelper.isDataExists_fromHistory(type, monyr, 0)) {
-            databaseHelper.addData_toHistory(type, monyr, calendarHelper.getTodayDate(), 8, 0);
             preferences.edit().putBoolean("overdue_" + type, true).apply();
         }
         else
