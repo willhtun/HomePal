@@ -107,7 +107,7 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
                     }
                     else {
                         prepTable_empty(type);
-                        return false;
+                        return true;
                     }
                     return true;
                 }
@@ -191,6 +191,8 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
                             }
                         },200);
 
+                        prepTable_empty(type);
+
                         return false;
                     }
                     return true;
@@ -204,6 +206,7 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
         int yr = mCalendarHelper.getCycleYear(type);
         String monyr = String.valueOf(mon) + "_" + String.valueOf(yr);
         if (!mDatabaseHelper.isEntryExists_fromHistory(type, monyr)) {
+            mDatabaseHelper.addData_toDueDate(type, 1, 0);
             mDatabaseHelper.addData_toHistory(type, monyr, mCalendarHelper.getTodayDate(), 8, 0);
         }
     }

@@ -14,10 +14,10 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="20" />
-                            <entry key="outputName" value="ic_pastdues_overdue" />
+                            <entry key="height" value="25" />
+                            <entry key="outputName" value="ic_pastdues_paybutton" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Will Htun\Desktop\New Text Document (2).svg" />
+                            <entry key="sourceFile" value="C:\Users\Will Htun\Desktop\od_pay.svg" />
                             <entry key="width" value="50" />
                           </map>
                         </option>

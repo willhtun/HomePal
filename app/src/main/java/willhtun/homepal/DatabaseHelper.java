@@ -329,6 +329,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean hasOverdues(String typ) {
+        String key = typ + "%";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String whereClause = TYPE_MONTH +" LIKE '" + key + "'";
+
+        Cursor c = db.query(
+                TABLE_NAME_HISTORY, // a. table
+                new String[] {TYPE_MONTH, PAID_ME}, // b. column names
+                whereClause, // c. selections
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        if (c != null && c.moveToLast()) {
+            while (c.moveToPrevious()) {
+                if (c.getInt(1) == 0) {
+                    c.close();
+                    return true;
+                }
+            }
+            c.close();
+            return false;
+        }
+        else {
+            c.close();
+            return false;
+        }
+    }
+
     public int getDate_fromDueDate(String typ) {
         String type = typ + "_dd";
         SQLiteDatabase db = this.getReadableDatabase();
