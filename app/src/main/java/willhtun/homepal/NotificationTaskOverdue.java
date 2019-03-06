@@ -13,7 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class NotificationTester extends BroadcastReceiver {
+public class NotificationTaskOverdue extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";
 
@@ -43,9 +43,9 @@ public class NotificationTester extends BroadcastReceiver {
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.icon_home)
-                .setTicker("{Testing notification}")
-                .setContentTitle("Testing notification!")
-                .setContentText("Called prep table and overdue handler")
+                .setTicker("{Overdue Bill!}")
+                .setContentTitle("Overdue Bill!")
+                .setContentText("Tap here to view in details.")
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 

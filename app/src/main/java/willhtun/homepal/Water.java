@@ -89,10 +89,6 @@ public class Water extends AppCompatActivity {
             ((TextView) findViewById(R.id.water_priceboxtext)).setText("$" + String.format("%.2f", price));
         }
 
-        mDatabaseHelper.addData_toHistory(type, "1_2018", 1, 1, 92);
-        mDatabaseHelper.addData_toHistory(type, "1_2019", 1, 1, 92);
-        mDatabaseHelper.addData_toHistory(type, "2_2019", 1, 5, 92);
-
         if (preferences.getBoolean("check_box_preference_bills_" + type, false)) {
             int mon = mCalendarHelper.getCycleMonth(type);
             int yr = mCalendarHelper.getCycleYear(type);
@@ -196,11 +192,13 @@ public class Water extends AppCompatActivity {
         vertical_ll.removeAllViews();
         preferences.edit().putBoolean("overdue_water", false).apply();
 
+        boolean overdue_exist = false;
+
         for (int i = 0; i < 20; i++) {
             LinearLayout entry_ll = new LinearLayout(this);
             TextView textDate = new TextView(this);
             TextView textPrice = new TextView(this);
-            ImageButton duesButton = new ImageButton(this);
+            // ImageButton duesButton = new ImageButton(this);
 
             // Date and Price from DB
             String text = text_raw[0][i];
@@ -210,7 +208,6 @@ public class Water extends AppCompatActivity {
             String format_period = "";
             String personsPaidStats;
             boolean pastdues_exist = false;
-            boolean overdue_exist = false;
 
             if (!text.equals("")) {
                 int t = 0;
@@ -231,6 +228,7 @@ public class Water extends AppCompatActivity {
 
                 final String[] housemates_names = mDatabaseHelper.getHousemates_fromHistory(type_period);
 
+                /*
                 duesButton.setImageResource(R.drawable.ic_pastdues_false);
                 for (int p = 0; p < 5; p++) {
                     if (!housemates_names[p].equals("--") && personsPaidStats.charAt(p) == '0') {
@@ -244,6 +242,7 @@ public class Water extends AppCompatActivity {
                     duesButton.setImageResource(R.drawable.ic_pastdues_overdue);
                     overdue_exist = true;
                 }
+                */
 
                 text = text.substring(t+1);
                 textDate.setText(text);
@@ -258,9 +257,9 @@ public class Water extends AppCompatActivity {
                 textPrice.setPadding(0,0,0,0);
                 textPrice.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.josefinsans_regular));
 
-                duesButton.setBackground(null);
-                duesButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                duesButton.setPadding(40,0,50,0);
+                // duesButton.setBackground(null);
+                // duesButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                // duesButton.setPadding(40,10,50,0);
 
                 int ii = 0;
                 while (text.charAt(ii) != ' ')
@@ -272,6 +271,7 @@ public class Water extends AppCompatActivity {
                 final int [] pd_buttontext = {R.id.pastdues_button1text, R.id.pastdues_button2text, R.id.pastdues_button3text, R.id.pastdues_button4text, R.id.pastdues_button5text};
                 final int [] pd_button = {R.id.pastdues_button1, R.id.pastdues_button2, R.id.pastdues_button3, R.id.pastdues_button4, R.id.pastdues_button5};
 
+                /*
                 if (overdue_exist) {
                     preferences.edit().putBoolean("overdue_water", true).apply();
                     duesButton.setOnClickListener(new ArgsOnClickListener(this, history_price, type_period, format_period, personsPaidStats) {
@@ -366,15 +366,16 @@ public class Water extends AppCompatActivity {
                         }
                     });
                 }
+                */
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) dipToPix(100f), ViewGroup.LayoutParams.MATCH_PARENT);
                 textDate.setLayoutParams(params);
 
-                LinearLayout.LayoutParams params_t = new LinearLayout.LayoutParams((int) dipToPix(125f), ViewGroup.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams params_t = new LinearLayout.LayoutParams((int) dipToPix(100f), ViewGroup.LayoutParams.MATCH_PARENT);
                 textPrice.setLayoutParams(params_t);
 
-                LinearLayout.LayoutParams params_u = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                duesButton.setLayoutParams(params_u);
+               // LinearLayout.LayoutParams params_u = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+               // duesButton.setLayoutParams(params_u);
 
                 LinearLayout.LayoutParams params_rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) dipToPix(30f));
                 params_rl.setMargins(30,30,30,30);
@@ -383,7 +384,7 @@ public class Water extends AppCompatActivity {
 
                 entry_ll.addView(textDate);
                 entry_ll.addView(textPrice);
-                entry_ll.addView(duesButton);
+                //entry_ll.addView(duesButton);
                 vertical_ll.addView(entry_ll);
             }
         }
@@ -435,6 +436,7 @@ public class Water extends AppCompatActivity {
         return px;
     }
 
+    /*
     private void duesdialog_prepVisibility(final int person_num, String person_name, String housemate_price, String per,
                                            int pastdues_housemateX, int pastdues_amountX, final int pastdues_buttonXtext, final int pastdues_buttonX) {
         if (person_num == 1 || person_name.equals("--")) {
@@ -457,4 +459,5 @@ public class Water extends AppCompatActivity {
             });
         }
     }
+    */
 }

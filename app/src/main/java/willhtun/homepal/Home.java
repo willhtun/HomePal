@@ -49,8 +49,8 @@ public class Home extends AppCompatActivity {
         mCalendarHelper = new CalendarHelper(mDatabaseHelper, getApplicationContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+     //   loadPaidHistory();
         loadDueDates();
-        loadPaidHistory();
         loadVisibility();
 
         setAlarm();
@@ -59,8 +59,8 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+     //   loadPaidHistory();
         loadDueDates();
-        loadPaidHistory();
         loadVisibility();
     }
 
@@ -171,242 +171,74 @@ public class Home extends AppCompatActivity {
         ((TextView) findViewById(R.id.custom4_diamondText)).setText(String.valueOf(custom4DaysLeftUntil));
         ((TextView) findViewById(R.id.custom5_diamondText)).setText(String.valueOf(custom5DaysLeftUntil));
 
+        String[] type_s = {"rent", "car", "internet", "mobile", "electricity", "water", "gas", "trash", "custom1", "custom2", "custom3", "custom4", "custom5"};
 
-        if (preferences.getBoolean("overdue_rent", false)) {
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.rent_diamondText)).setText("!");
-        }
-        else if (rentDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (rentDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.rent_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.rent_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_car", false)) {
-            ((ImageView) findViewById(R.id.car_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.car_diamondText)).setText("!");
-        }
-        else if (carDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.car_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (carDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.car_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.car_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.car_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_internet", false)) {
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.internet_diamondText)).setText("!");
-        }
-        else if (internetDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (internetDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.internet_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.internet_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_mobile", false)) {
-            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.mobile_diamondText)).setText("!");
-        }
-        else if (mobileDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (mobileDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.mobile_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.mobile_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_electricity", false)) {
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.electricity_diamondText)).setText("!");
-        }
-        else if (electricityDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (electricityDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.electricity_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.electricity_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_water", false)) {
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.water_diamondText)).setText("!");
-        }
-        else if (waterDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (waterDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.water_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.water_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_gas", false)) {
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.gas_diamondText)).setText("!");
-        }
-        else if (gasDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (gasDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.gas_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.gas_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_trash", false)) {
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.trash_diamondText)).setText("!");
-        }
-        else if (trashDaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (trashDaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.trash_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.trash_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_custom1", false)) {
-            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.custom1_diamondText)).setText("!");
-        }
-        else if (custom1DaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (custom1DaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.custom1_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.custom1_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_custom2", false)) {
-            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.custom2_diamondText)).setText("!");
-        }
-        else if (custom2DaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (custom2DaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.custom2_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.custom2_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_custom3", false)) {
-            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.custom3_diamondText)).setText("!");
-        }
-        else if (custom3DaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (custom3DaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.custom3_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.custom3_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_custom4", false)) {
-            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.custom4_diamondText)).setText("!");
-        }
-        else if (custom4DaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (custom4DaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.custom4_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.custom4_diamondText)).setTextColor(Color.parseColor("#000000"));
-        }
-        //------------------------------------------------------------------------------------------------------------
-        if (preferences.getBoolean("overdue_custom5", false)) {
-            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-            ((TextView) findViewById(R.id.custom5_diamondText)).setText("!");
-        }
-        else if (custom5DaysLeftUntil <= 3) {
-            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else if (custom5DaysLeftUntil <= warningPeriod) {
-            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setVisibility(View.INVISIBLE);
-            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#A12C2C"));
-        }
-        else {
-            ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setImageResource(R.drawable.ic_border_greendiamond);
-            ((TextView) findViewById(R.id.custom5_diamondText)).setTextColor(Color.parseColor("#000000"));
+        int[] greyDiamonds = {R.id.rent_greyDiamonds,
+                R.id.car_greyDiamonds,
+                R.id.internet_greyDiamonds,
+                R.id.mobile_greyDiamonds,
+                R.id.electricity_greyDiamonds,
+                R.id.water_greyDiamonds,
+                R.id.gas_greyDiamonds,
+                R.id.trash_greyDiamonds,
+                R.id.custom1_greyDiamonds,
+                R.id.custom2_greyDiamonds,
+                R.id.custom3_greyDiamonds,
+                R.id.custom4_greyDiamonds,
+                R.id.custom5_greyDiamonds};
+
+        int[] diamondText = {R.id.rent_diamondText,
+                R.id.car_diamondText,
+                R.id.internet_diamondText,
+                R.id.mobile_diamondText,
+                R.id.electricity_diamondText,
+                R.id.water_diamondText,
+                R.id.gas_diamondText,
+                R.id.trash_diamondText,
+                R.id.custom1_diamondText,
+                R.id.custom2_diamondText,
+                R.id.custom3_diamondText,
+                R.id.custom4_diamondText,
+                R.id.custom5_diamondText};
+
+        int[] daysLeftUntil = {rentDaysLeftUntil,
+                            carDaysLeftUntil,
+                            internetDaysLeftUntil,
+                            mobileDaysLeftUntil,
+                            electricityDaysLeftUntil,
+                            waterDaysLeftUntil,
+                            gasDaysLeftUntil,
+                            trashDaysLeftUntil,
+                            custom1DaysLeftUntil,
+                            custom2DaysLeftUntil,
+                            custom3DaysLeftUntil,
+                            custom4DaysLeftUntil,
+                            custom5DaysLeftUntil};
+
+        for (int i = 0; i < 13; i++) {
+            if (preferences.getBoolean("overdue_" + type_s[i], false)) {
+                ((ImageView) findViewById(greyDiamonds[i])).setVisibility(View.VISIBLE);
+                ((ImageView) findViewById(greyDiamonds[i])).setImageResource(R.drawable.ic_border_greendiamond);
+                ((TextView) findViewById(diamondText[i])).setTextColor(Color.parseColor("#A12C2C"));
+                ((TextView) findViewById(diamondText[i])).setText("!");
+            } else if (mDatabaseHelper.isDataExists_fromHistory(type_s[i], mCalendarHelper.getCycleMonthYear(type_s[i]), 0)) {
+                ((TextView) findViewById(diamondText[i])).setText("");
+                ((ImageView) findViewById(greyDiamonds[i])).setVisibility(View.VISIBLE);
+                ((ImageView) findViewById(greyDiamonds[i])).setImageResource(R.drawable.ic_border_checkedgreendiamond);
+            } else if (daysLeftUntil[i] <= 3) {
+                ((ImageView) findViewById(greyDiamonds[i])).setVisibility(View.VISIBLE);
+                ((ImageView) findViewById(greyDiamonds[i])).setImageResource(R.drawable.home_redline);
+                ((TextView) findViewById(diamondText[i])).setTextColor(Color.parseColor("#A12C2C"));
+            } else if (daysLeftUntil[i] <= warningPeriod) {
+                ((ImageView) findViewById(greyDiamonds[i])).setVisibility(View.INVISIBLE);
+                ((TextView) findViewById(diamondText[i])).setTextColor(Color.parseColor("#A12C2C"));
+            } else {
+                ((ImageView) findViewById(greyDiamonds[i])).setVisibility(View.INVISIBLE);
+                ((TextView) findViewById(diamondText[i])).setTextColor(Color.parseColor("#000000"));
+            }
         }
     }
-
+/*
     public void loadPaidHistory() {
         if (mDatabaseHelper.isDataExists_fromHistory("rent", mCalendarHelper.getCycleMonthYear("rent"),0)) {
             ((TextView) findViewById(R.id.rent_diamondText)).setText("");
@@ -474,6 +306,7 @@ public class Home extends AppCompatActivity {
             ((ImageView) findViewById(R.id.custom5_greyDiamonds)).setImageResource(R.drawable.ic_border_checkedgreendiamond);
         }
     }
+    */
 
     public void loadVisibility() {
         boolean empty = true;

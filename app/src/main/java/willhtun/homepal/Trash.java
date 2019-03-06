@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -87,6 +89,15 @@ public class Trash extends AppCompatActivity {
             ((TextView) findViewById(R.id.trash_priceboxtext)).setText("$" + String.format("%.2f", price));
         }
 
+        if (preferences.getBoolean("check_box_preference_bills_" + type, false)) {
+            int mon = mCalendarHelper.getCycleMonth(type);
+            int yr = mCalendarHelper.getCycleYear(type);
+            String monyr = String.valueOf(mon) + "_" + String.valueOf(yr);
+            if (!mDatabaseHelper.isEntryExists_fromHistory(type, monyr)) {
+                mDatabaseHelper.addData_toHistory(type, monyr, mCalendarHelper.getTodayDate(), 8, 0);
+            }
+        }
+
         loadHistory();
         loadHousemates();
         loadButtons();
@@ -103,7 +114,7 @@ public class Trash extends AppCompatActivity {
     public void trash_personX_pay(int personNum, ImageView trash_pX_button, int trash_buttontextID) { //R.id.trash_person1_text
         mDatabaseHelper.addData_toHistory(type, mCalendarHelper.getCycleMonthYear(type), personNum, personNum, price);
         trash_pX_button.setImageResource(R.drawable.generic_personpaidbutton);
-        ((TextView) findViewById(trash_buttontextID)).setTextColor(Color.WHITE);
+        ((TextView) findViewById(trash_buttontextID)).setTextColor(Color.BLACK);
         loadHistory();
     }
 
@@ -136,7 +147,7 @@ public class Trash extends AppCompatActivity {
                     return true;
                 }
             });
-            ((TextView) findViewById(R.id.trash_payBtn_text)).setTextColor(Color.parseColor("#000000"));
+            ((TextView) findViewById(R.id.trash_payBtn_text)).setTextColor(Color.parseColor("#AAAAAA"));
         }
 
         if (preferences.getBoolean("settings_billSharingOn_trash", false)) {
@@ -150,7 +161,7 @@ public class Trash extends AppCompatActivity {
                 }
                 else if (mDatabaseHelper.isDataExists_fromHistory(type, mCalendarHelper.getCycleMonthYear(type), i)) {
                     button[i-1].setImageResource(R.drawable.generic_personpaidbutton);
-                    ((TextView) findViewById(text[i-1])).setTextColor(Color.WHITE);
+                    ((TextView) findViewById(text[i-1])).setTextColor(Color.BLACK);
                 }
                 else {
                     button[i-1].setOnClickListener(new View.OnClickListener() {
@@ -181,11 +192,13 @@ public class Trash extends AppCompatActivity {
         vertical_ll.removeAllViews();
         preferences.edit().putBoolean("overdue_trash", false).apply();
 
+        boolean overdue_exist = false;
+
         for (int i = 0; i < 20; i++) {
             LinearLayout entry_ll = new LinearLayout(this);
             TextView textDate = new TextView(this);
             TextView textPrice = new TextView(this);
-            ImageButton duesButton = new ImageButton(this);
+            // ImageButton duesButton = new ImageButton(this);
 
             // Date and Price from DB
             String text = text_raw[0][i];
@@ -195,7 +208,6 @@ public class Trash extends AppCompatActivity {
             String format_period = "";
             String personsPaidStats;
             boolean pastdues_exist = false;
-            boolean overdue_exist = false;
 
             if (!text.equals("")) {
                 int t = 0;
@@ -216,6 +228,7 @@ public class Trash extends AppCompatActivity {
 
                 final String[] housemates_names = mDatabaseHelper.getHousemates_fromHistory(type_period);
 
+                /*
                 duesButton.setImageResource(R.drawable.ic_pastdues_false);
                 for (int p = 0; p < 5; p++) {
                     if (!housemates_names[p].equals("--") && personsPaidStats.charAt(p) == '0') {
@@ -229,21 +242,24 @@ public class Trash extends AppCompatActivity {
                     duesButton.setImageResource(R.drawable.ic_pastdues_overdue);
                     overdue_exist = true;
                 }
+                */
 
                 text = text.substring(t+1);
                 textDate.setText(text);
                 textDate.setGravity(Gravity.CENTER_VERTICAL);
                 textDate.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
                 textDate.setPadding(50,0,0,0);
+                textDate.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.josefinsans_regular));
 
                 textPrice.setText(history_price);
                 textPrice.setGravity(Gravity.CENTER_VERTICAL);
                 textPrice.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
                 textPrice.setPadding(0,0,0,0);
+                textPrice.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.josefinsans_regular));
 
-                duesButton.setBackground(null);
-                duesButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                duesButton.setPadding(40,0,50,0);
+                // duesButton.setBackground(null);
+                // duesButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                // duesButton.setPadding(40,10,50,0);
 
                 int ii = 0;
                 while (text.charAt(ii) != ' ')
@@ -255,6 +271,7 @@ public class Trash extends AppCompatActivity {
                 final int [] pd_buttontext = {R.id.pastdues_button1text, R.id.pastdues_button2text, R.id.pastdues_button3text, R.id.pastdues_button4text, R.id.pastdues_button5text};
                 final int [] pd_button = {R.id.pastdues_button1, R.id.pastdues_button2, R.id.pastdues_button3, R.id.pastdues_button4, R.id.pastdues_button5};
 
+                /*
                 if (overdue_exist) {
                     preferences.edit().putBoolean("overdue_trash", true).apply();
                     duesButton.setOnClickListener(new ArgsOnClickListener(this, history_price, type_period, format_period, personsPaidStats) {
@@ -349,15 +366,16 @@ public class Trash extends AppCompatActivity {
                         }
                     });
                 }
+                */
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) dipToPix(100f), ViewGroup.LayoutParams.MATCH_PARENT);
                 textDate.setLayoutParams(params);
 
-                LinearLayout.LayoutParams params_t = new LinearLayout.LayoutParams((int) dipToPix(125f), ViewGroup.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams params_t = new LinearLayout.LayoutParams((int) dipToPix(100f), ViewGroup.LayoutParams.MATCH_PARENT);
                 textPrice.setLayoutParams(params_t);
 
-                LinearLayout.LayoutParams params_u = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                duesButton.setLayoutParams(params_u);
+                // LinearLayout.LayoutParams params_u = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                // duesButton.setLayoutParams(params_u);
 
                 LinearLayout.LayoutParams params_rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) dipToPix(30f));
                 params_rl.setMargins(30,30,30,30);
@@ -366,7 +384,7 @@ public class Trash extends AppCompatActivity {
 
                 entry_ll.addView(textDate);
                 entry_ll.addView(textPrice);
-                entry_ll.addView(duesButton);
+                //entry_ll.addView(duesButton);
                 vertical_ll.addView(entry_ll);
             }
         }
@@ -418,6 +436,7 @@ public class Trash extends AppCompatActivity {
         return px;
     }
 
+    /*
     private void duesdialog_prepVisibility(final int person_num, String person_name, String housemate_price, String per,
                                            int pastdues_housemateX, int pastdues_amountX, final int pastdues_buttonXtext, final int pastdues_buttonX) {
         if (person_num == 1 || person_name.equals("--")) {
@@ -440,4 +459,5 @@ public class Trash extends AppCompatActivity {
             });
         }
     }
+    */
 }

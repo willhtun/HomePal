@@ -61,6 +61,7 @@
             android:screenOrientation="portrait"/>
 
         <receiver android:name=".NotificationTask" />
+        <receiver android:name=".NotificationTaskOverdue" />
         <receiver
             android:name=".NotificationScheduler"
             android:enabled="true" />

@@ -37,7 +37,6 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
         findPreference("check_box_preference_bills_water").setIconSpaceReserved(false);
         findPreference("check_box_preference_bills_gas").setIconSpaceReserved(false);
         findPreference("check_box_preference_bills_trash").setIconSpaceReserved(false);
-        findPreference("check_box_preference_bills_groceries").setIconSpaceReserved(false);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mDatabaseHelper = new DatabaseHelper(getActivity());
@@ -51,7 +50,6 @@ public class SettingsOtherBills_Frag extends PreferenceFragmentCompat {
         create_deleteConfirmation("water");
         create_deleteConfirmation("gas");
         create_deleteConfirmation("trash");
-        create_deleteConfirmation("groceries");
 
         create_deleteConfirmation_custom("custom1");
         create_deleteConfirmation_custom("custom2");
